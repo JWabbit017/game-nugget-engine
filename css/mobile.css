@@ -1,0 +1,99 @@
+:root {
+  font-size: 16px;
+}
+
+#container,
+#top-panel,
+#bottom-panel,
+#panel-border {
+  max-width: 80vw;
+  width: 80vw;
+}
+
+#debug {
+  top: 23vh;
+  height: 1.3vh;
+}
+
+#panel-border {
+  bottom: 5px;
+  padding: 0.2vh 1.5vw;
+}
+
+#top-panel {
+  padding: 12px 1.5vw;
+}
+
+#bottom-panel {
+  padding-top: 20px;
+  justify-items: normal;
+  padding-bottom: 15px;
+  background-image: none;
+  height: 13vh;
+}
+
+.display,
+#pokemonList,
+#pokemonBio {
+  height: 57vw;
+  width: 57vw;
+  max-width: 57vw;
+}
+
+#pokemonList figure {
+  min-width: 20vw;
+}
+
+#pokemonList img {
+  max-width: 20vw;
+  min-width: 10vw;
+}
+
+#pokemonList .selected {
+  max-width: calc(20vw - 4px);
+}
+
+.display {
+  border-width: 10px;
+  border-left-width: 20px;
+  border-right-width: 20px;
+}
+
+#dpad {
+  height: 12vh;
+  border-radius: 6vh;
+  position: relative;
+  left: 4vw;
+  margin: 8px 0;
+}
+
+.dpad-button {
+  height: 4vh;
+}
+
+#buttons {
+  position: relative;
+  right: 8vw;
+}
+
+#menu .activeMenuItem::before {
+  content: ">";
+  height: 10px;
+  width: auto;
+  display: inline-block;
+}
+
+#pokemonBio {
+  font-size: 1.3em;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+#pokemonBio main {
+  flex-direction: column;
+}
+
+#pokemonBio img {
+  flex: 3;
+  width: 40%;
+}

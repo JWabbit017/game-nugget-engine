@@ -1,0 +1,76 @@
+import { thisApp } from "../../script.js";
+import g from "../generic.js";
+import View from "../viewTemplate.js";
+
+let selectedMenuItem = 1;
+
+// Initialising function - see this as the constructor of the view
+export default function mainMenu() {
+  const view = new View(HTML(), {
+    aEvent: aEvent,
+    upEvent: upEvent,
+    downEvent: downEvent,
+  });
+  view.applyArrow = applyArrow;
+
+  return view;
+}
+
+function aEvent() {
+  const thisLocation = document
+    .querySelector(".activeMenuItem")
+    .getAttribute("data-location");
+
+  thisApp.display.postView(thisLocation);
+}
+
+function upEvent() {
+  if (selectedMenuItem > 1) selectedMenuItem--;
+  moveMenu();
+}
+
+function downEvent() {
+  if (selectedMenuItem < 3) selectedMenuItem++;
+  moveMenu();
+}
+
+function moveMenu() {
+  thisApp.debugHandler.createDebug("menu " + selectedMenuItem);
+  applyArrow();
+}
+
+function applyArrow() {
+  document.querySelector(".activeMenuItem").removeAttribute("class");
+  document
+    .querySelector(`#menu li:nth-of-type(${selectedMenuItem})`)
+    .setAttribute("class", "activeMenuItem");
+}
+
+function HTML() {
+  const menu = g.newElement("nav");
+  menu.setAttribute("id", "menu");
+  menu.setAttribute("class", "display-filter");
+
+  const title = g.newElement("h2", "GAME NUGGET");
+
+  const list = g.newElement("ul");
+
+  const pokedex = g.newElement("li", "Pokédex");
+  pokedex.setAttribute("class", "activeMenuItem");
+  pokedex.setAttribute("data-location", "pokemonList");
+
+  const pokemon = g.newElement("li", "Pokémon");
+  pokemon.setAttribute("data-location", "partyView");
+
+  const save = g.newElement("li", "Save");
+  save.setAttribute("data-location", "save");
+
+  list.appendChild(pokedex);
+  list.appendChild(pokemon);
+  list.appendChild(save);
+
+  menu.appendChild(title);
+  menu.appendChild(list);
+
+  return menu;
+}
