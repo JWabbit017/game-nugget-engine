@@ -1,0 +1,35 @@
+@font-face {
+  src: url(../assets/fonts/pokemon-emerald.ttf);
+  font-family: "Pokemon Emerald";
+}
+
+@font-face {
+  src: url(../assets/fonts/wavefont.ttf);
+  font-family: "Wavefont";
+}
+
+:root {
+  font-family: "Pokemon Emerald", monospace, Arial;
+  font-size: 24px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+h1,
+h2 {
+  font-weight: normal;
+}
+
+body {
+  background-color: rgb(94, 81, 81);
+}
+
+#container {
+  max-width: 27vw;
+  height: max-content;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

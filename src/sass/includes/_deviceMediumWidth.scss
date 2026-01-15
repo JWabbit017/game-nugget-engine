@@ -1,0 +1,35 @@
+@media screen and (max-width: 1800px) and (min-width: 801px) {
+  #container,
+  #top-panel,
+  #bottom-panel,
+  #panel-border {
+    max-width: 34vw;
+    width: 34vw;
+  }
+
+  .display,
+  #pokemonList,
+  #pokemonBio {
+    height: 26vw;
+    width: 27vw;
+    max-width: 27vw;
+  }
+
+  #debug {
+    top: 35vh;
+  }
+
+  #panel-border {
+    bottom: 5px;
+    padding: 0.2vh 1.5vw;
+  }
+
+  #bottom-panel {
+    padding-top: 3.5vh;
+    background-size: 40vh 53vh;
+  }
+
+  #pokemonList figure {
+    min-width: 7vw;
+  }
+}

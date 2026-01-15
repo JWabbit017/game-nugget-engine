@@ -1,0 +1,89 @@
+#pokemonBio {
+  display: grid;
+  grid-template-areas:
+    "header header"
+    "div div"
+    "main main"
+    "div2 div2"
+    "misc misc";
+  justify-items: start;
+
+  header {
+    grid-area: header;
+    display: flex;
+    flex-flow: row wrap;
+    gap: 10px;
+    justify-content: flex-start;
+
+    span,
+    h2 {
+      align-self: center;
+      font-size: 1.5em;
+    }
+  }
+
+  main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+    grid-area: main;
+
+    img,
+    p {
+      align-self: center;
+      margin: 0;
+    }
+  }
+
+  img {
+    width: 10vw;
+    height: auto;
+    flex: 1;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.4em;
+  }
+
+  p {
+    flex: 2;
+  }
+
+  span {
+    font-size: 1.4em;
+  }
+
+  section:last-of-type {
+    grid-area: misc;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0.5vw;
+    padding: 0vh 1vw;
+    width: 90%;
+
+    span {
+      flex: 1;
+    }
+  }
+
+  hr {
+    width: 100%;
+    background-color: black;
+    height: 2px;
+    border: none;
+    outline: none;
+
+    &:first-of-type {
+      grid-area: div;
+      margin-bottom: 5px;
+    }
+
+    &:last-of-type {
+      grid-area: div2;
+      margin-top: 5px;
+    }
+  }
+}
