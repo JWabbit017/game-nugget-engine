@@ -4,18 +4,22 @@ export default class ListPreset {
   listLength = 1;
 
   static upEvent() {
-    if (selectedMenuItem > 1) selectedMenuItem--;
-    moveMenu();
+    if (selectedMenuItem > 1) {
+      selectedMenuItem--;
+      this.moveMenu();
+    }
   }
 
   static downEvent() {
-    if (selectedMenuItem < listLength) selectedMenuItem++;
-    moveMenu();
+    if (selectedMenuItem < listLength) {
+      selectedMenuItem++;
+      this.moveMenu();
+    }
   }
 
   static moveMenu() {
     thisApp.debugHandler.createDebug("menu " + selectedMenuItem);
-    applyArrow();
+    this.applyArrow();
   }
 
   static applyArrow() {

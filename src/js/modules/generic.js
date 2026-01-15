@@ -40,4 +40,24 @@ export default class g {
     thisApp.debugHandler.createDebug(funcName + " error");
     thisApp.display.lastError = err;
   }
+
+  /**
+   * @summary Makes a fetch request to a given address
+   * @param {string} address JSON-serving endpoint to make the request to
+   * @param {string} fetchMethod HTTPS request method to use. Defaults to GET
+   * @returns {Promise<object>} Promise containing response data
+   */
+  static async Request(address, fetchMethod = "GET") {
+    try {
+      const response = await fetch(address, { method: fetchMethod });
+      const data = await response.json();
+      if (data !== undefined) {
+        return data;
+      } else {
+        throw new Error("Response is undefined");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  }
 }

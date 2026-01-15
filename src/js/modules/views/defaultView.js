@@ -6,6 +6,7 @@ let selectedMenuItem = 1;
 
 // Initialising function - see this as the constructor of the view
 export default function defaultView() {
+  selectedMenuItem = 1;
   const view = new View(HTML(), {
     aEvent: aEvent,
     upEvent: upEvent,
@@ -17,11 +18,18 @@ export default function defaultView() {
 }
 
 function aEvent() {
+  thisApp.debugHandler.debugPrompt(aEvent2);
+}
+
+function getTarget() {
   const thisLocation = document
     .querySelector(".activeMenuItem")
     .getAttribute("data-location");
+  return thisLocation;
+}
 
-  thisApp.display.postView(thisLocation);
+function aEvent2(value) {
+  thisApp.display.postView(getTarget(), value);
 }
 
 function upEvent() {
@@ -30,7 +38,7 @@ function upEvent() {
 }
 
 function downEvent() {
-  if (selectedMenuItem < 3) selectedMenuItem++;
+  if (selectedMenuItem < thisApp.views.length) selectedMenuItem++;
   moveMenu();
 }
 
@@ -42,7 +50,7 @@ function moveMenu() {
 function applyArrow() {
   document.querySelector(".activeMenuItem").removeAttribute("class");
   document
-    .querySelector(`#menu li:nth-of-type(${selectedMenuItem})`)
+    .querySelector(`#defaultView li:nth-of-type(${selectedMenuItem})`)
     .setAttribute("class", "activeMenuItem");
 }
 
@@ -51,22 +59,18 @@ function HTML() {
   menu.setAttribute("id", "defaultView");
   menu.setAttribute("class", "display-filter");
 
-  const title = g.newElement("h2", "GAME NUGGET");
-
   const list = g.newElement("ul");
 
   for (const view of thisApp.views) {
-    const el = g.newElement("li", view);
-    el.setAttribute("data-location", view);
+    if (thisApp.views.includes(view)) {
+      const el = g.newElement("li", view);
+      el.setAttribute("data-location", view);
+      if (view === "defaultView") el.setAttribute("class", "activeMenuItem");
 
-    list.appendChild(el);
+      list.appendChild(el);
+    }
   }
 
-  list.appendChild(pokedex);
-  list.appendChild(pokemon);
-  list.appendChild(save);
-
-  menu.appendChild(title);
   menu.appendChild(list);
 
   return menu;

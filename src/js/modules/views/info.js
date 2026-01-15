@@ -3,7 +3,7 @@ import View from "../viewTemplate.js";
 import g from "../generic.js";
 
 // Initialising function - see this as the constructor of the view
-export default function info(text, duration) {
+export default function info(text, duration = 2000) {
   const previous = thisApp.display.currentImport;
 
   const view = new View(HTML(text));
@@ -22,7 +22,6 @@ function HTML(text) {
   const infoText = g.newElement("p", text);
 
   errorContainer.appendChild(infoText);
-  errorContainer.appendChild(subtext);
 
   return errorContainer;
 }

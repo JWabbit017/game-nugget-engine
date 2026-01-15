@@ -16,7 +16,7 @@ export default class Display {
    * @param {object} place The HTML node to append the display to.
    * @param {string} initialView The viewName of the view that should be pre-loaded on construction.
    */
-  constructor(place, initialView = "default") {
+  constructor(place) {
     this.#createDisplay(place);
     this.#bindControls({
       up: document.querySelector("#up"),
@@ -24,7 +24,10 @@ export default class Display {
       a: document.querySelector("#a"),
       b: document.querySelector("#b"),
     });
-    this.postView(initialView);
+  }
+
+  preload(view) {
+    this.postView(view);
   }
 
   // --- DISPLAY MANAGEMENT
@@ -123,7 +126,7 @@ export default class Display {
       thisApp.debugHandler.createDebug("posted " + viewName, true);
     } catch (err) {
       if (viewName !== "error") {
-        this.postView("error", "FATAL " + err);
+        this.postView("error", ["FATAL", err]);
       } else {
         this.currentImport.element.remove();
         console.error(err);

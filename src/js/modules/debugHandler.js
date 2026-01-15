@@ -9,7 +9,7 @@ export default class DebugHandler {
 
     document.addEventListener("keydown", (event) => {
       if (event.key === "t" && document.querySelector("#debug") === null) {
-        this.#createCommandInterface(event);
+        this.#createCommandInterface();
       }
     });
   }
@@ -48,7 +48,11 @@ export default class DebugHandler {
     }, 1000);
   }
 
-  #createCommandInterface() {
+  debugPrompt(responseFunc) {
+    this.#createCommandInterface(true, responseFunc);
+  }
+
+  #createCommandInterface(prompted = false, responseFunc = null) {
     const command = g.newElement("aside");
     command.setAttribute("id", "debug");
     command.setAttribute("class", "display-filter");
@@ -59,10 +63,18 @@ export default class DebugHandler {
 
     const go = g.newElement("button", "GO");
 
-    go.addEventListener("click", () => {
-      this.#debugCommands(input.value);
-      command.remove();
-    });
+    // Doing it this way because of some weird scope issue I can't be bothered to look into
+    if (!prompted) {
+      go.addEventListener("click", () => {
+        this.#debugCommands(input.value);
+        command.remove();
+      });
+    } else {
+      go.addEventListener("click", () => {
+        responseFunc(input.value);
+        command.remove();
+      });
+    }
 
     command.appendChild(input);
     command.appendChild(go);
