@@ -106,7 +106,7 @@ export default class Display {
    * @param {string} viewName The name of the view.
    * @param {any} param Will be passed to the view's initialiser function if applicable. Defaults to null.
    */
-  async postView(viewName, param = null) {
+  async postView(viewName, param = null, isInternalView = false) {
     try {
       // If the previous view had events, remove them
       if (this.currentImport !== undefined) {
@@ -114,7 +114,7 @@ export default class Display {
       }
 
       // We save the current view in a class-scope property so we can handle the corresponding events seperately from any other views that may be being processed
-      this.currentImport = await this.#getView(viewName, param);
+      this.currentImport = await this.#getView(viewName, param, isInternalView);
 
       // Like this
       if (this.currentImport.appendEvents !== undefined) {
@@ -135,8 +135,10 @@ export default class Display {
     }
   }
 
-  async #getView(viewName, param = null) {
-    const imp = await import(`./views/${viewName}.js`);
+  async #getView(viewName, param = null, isInternalView) {
+    const imp = await import(
+      `${isInternalView ? thisApp.viewDir : "./views"}/${viewName}.js`
+    );
 
     const output = param == null ? imp.default() : imp.default(param);
 

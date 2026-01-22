@@ -10,6 +10,7 @@ export default class Device {
     debugOutput: localStorage.getItem("gameNugdebugOutput") === "true",
   };
   preloadView = "defaultView";
+  viewDir = "./views";
 
   /**
    * @param {Display} display
@@ -18,10 +19,9 @@ export default class Device {
   constructor(display, debugHandler) {
     this.display = display;
     this.debugHandler = debugHandler;
-    this.initDisplay();
   }
 
-  initDisplay() {
+  start() {
     this.display.preload(this.preloadView);
   }
 }

@@ -5,6 +5,8 @@ import DebugHandler from "./modules/debugHandler.js";
 const display = new Display(document.querySelector("#top-panel"));
 const debugHandler = new DebugHandler(display.element);
 
-const GameNugget = new Device(display, debugHandler);
+const GNE = new Object();
 
-export default GameNugget;
+GNE.GameNugget = new Device(display, debugHandler);
+
+export default GNE;

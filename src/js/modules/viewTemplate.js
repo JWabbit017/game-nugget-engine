@@ -42,6 +42,7 @@ export default class View {
   }
 
   removeEvents() {
+    // Turns out removeEventListener doesn't really seem to care if the event exists or not, so I can leave out the null checks
     View.appControls.a.removeEventListener("click", this.aEvent);
     View.appControls.b.removeEventListener("click", this.bEvent);
 
