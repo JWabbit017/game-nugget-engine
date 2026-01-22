@@ -21,6 +21,9 @@ export default class Device {
     this.debugHandler = debugHandler;
   }
 
+  /**
+   * @summary Initialises the Game Nugget with the preload specified in this.preloadView, or defaultView if null.
+   */
   start() {
     this.display.preload(this.preloadView);
   }
