@@ -27,4 +27,8 @@ export default class Device {
   start() {
     this.display.preload(this.preloadView);
   }
+
+  mountApp(appInstance) {
+    this.app = appInstance;
+  }
 }

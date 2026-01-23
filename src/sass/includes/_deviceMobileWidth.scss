@@ -1,6 +1,6 @@
 @media screen and (max-width: 800px) {
   :root {
-    font-size: 16px;
+    font-size: 16px !important;
   }
 
   #container,
@@ -12,8 +12,8 @@
   }
 
   #debug {
-    top: 23vh;
-    height: 1.3vh;
+    top: 23vh !important;
+    height: 1.3vh !important;
   }
 
   #panel-border {
@@ -36,22 +36,22 @@
   .display,
   #pokemonList,
   #pokemonBio {
-    height: 57vw;
-    width: 57vw;
-    max-width: 57vw;
+    height: 57vw !important;
+    width: 57vw !important;
+    max-width: 57vw !important;
   }
 
   #pokemonList figure {
-    min-width: 20vw;
+    min-width: 20vw !important;
   }
 
   #pokemonList img {
-    max-width: 20vw;
-    min-width: 10vw;
+    max-width: 20vw !important;
+    min-width: 10vw !important;
   }
 
   #pokemonList .selected {
-    max-width: calc(20vw - 4px);
+    max-width: calc(20vw - 4px) !important;
   }
 
   .display {

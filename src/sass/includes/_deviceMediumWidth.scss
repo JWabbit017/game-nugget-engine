@@ -3,20 +3,20 @@
   #top-panel,
   #bottom-panel,
   #panel-border {
-    max-width: 34vw;
-    width: 34vw;
+    max-width: 34vw !important;
+    width: 34vw !important;
   }
 
   .display,
   #pokemonList,
   #pokemonBio {
-    height: 26vw;
-    width: 27vw;
-    max-width: 27vw;
+    height: 26vw !important;
+    width: 27vw !important;
+    max-width: 27vw !important;
   }
 
   #debug {
-    top: 35vh;
+    top: 35vh !important;
   }
 
   #panel-border {
@@ -30,6 +30,6 @@
   }
 
   #pokemonList figure {
-    min-width: 7vw;
+    min-width: 7vw !important;
   }
 }

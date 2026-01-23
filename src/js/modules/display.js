@@ -106,17 +106,23 @@ export default class Display {
    * @param {string} viewName The name of the view.
    * @param {any} param Will be passed to the view's initialiser function if applicable. Defaults to null.
    */
-  async postView(viewName, param = null, isInternalView = false) {
+  async postView(viewName, param = null) {
     try {
       // If the previous view had events, remove them
       if (this.currentImport !== undefined) {
         this.currentImport.removeEvents();
       }
 
-      // We save the current view in a class-scope property so we can handle the corresponding events seperately from any other views that may be being processed
-      this.currentImport = await this.#getView(viewName, param, isInternalView);
+      const isInternalView = thisApp.views.includes(viewName);
 
-      // Like this
+      // We save the current view in a class-scope property so we can handle the corresponding events seperately from any other views that may be being processed --
+      if (isInternalView) {
+        this.currentImport = await this.#getInternalView(viewName, param);
+      } else {
+        this.currentImport = await this.#getView(viewName, param);
+      }
+
+      // --Like this
       if (this.currentImport.appendEvents !== undefined) {
         this.currentImport.appendEvents();
       }
@@ -135,10 +141,17 @@ export default class Display {
     }
   }
 
-  async #getView(viewName, param = null, isInternalView) {
-    const imp = await import(
-      `${isInternalView ? thisApp.viewDir : "./views"}/${viewName}.js`
-    );
+  // I had to split these up the stupid way because import() does not accept any expression as parameter
+  async #getView(viewName, param = null) {
+    const imp = await import(`${thisApp.viewDir}/${viewName}.js`);
+
+    const output = param == null ? imp.default() : imp.default(param);
+
+    return output;
+  }
+
+  async #getInternalView(viewName, param = null) {
+    const imp = await import(`./views/${viewName}.js`);
 
     const output = param == null ? imp.default() : imp.default(param);
 

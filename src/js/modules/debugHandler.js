@@ -125,12 +125,12 @@ export default class DebugHandler {
     }
   }
 
-  #goto(commandValue, commandParameter) {
+  #goto(commandValue, commandParameter = null) {
     switch (commandValue) {
       case "pokemonList":
         thisApp.display.postView(commandValue);
         setTimeout(() => {
-          for (let i = 1; i < Number(commandParameter); i++) {
+          for (let i = 1; i < Number(commandParameter ?? 1); i++) {
             thisApp.display.currentImport.downEvent();
           }
         }, 600);
