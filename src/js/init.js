@@ -8,3 +8,4 @@ const debugHandler = new DebugHandler(display.element);
 const GameNugget = new Device(display, debugHandler);
 
 export default GameNugget;
+export { Display, DebugHandler };
