@@ -1,0 +1,6 @@
+#menu,
+#defaultView {
+  .activeMenuItem::before {
+    content: url(../assets/images/arrow.png) !important;
+  }
+}

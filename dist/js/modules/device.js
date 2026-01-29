@@ -25,10 +25,18 @@ export default class Device {
    * @summary Initialises the Game Nugget with the preload specified in this.preloadView, or defaultView if null.
    */
   start() {
-    this.display.preload(this.preloadView);
+    try {
+      if (!this.display || !this.debugHandler)
+        throw "One or more subsystems are undefined";
+
+      this.display.preload(this.preloadView);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   mountApp(appInstance) {
     this.app = appInstance;
+    this.preloadView = this.app?.preloadView ?? "defaultView";
   }
 }

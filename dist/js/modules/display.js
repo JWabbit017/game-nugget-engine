@@ -33,7 +33,7 @@ export default class Display {
   // --- DISPLAY MANAGEMENT
 
   #createDisplay(place) {
-    this.element = g.newElement("div");
+    this.element = document.createElement("div");
     this.element.setAttribute("class", "display");
 
     place.appendChild(this.element);
@@ -133,6 +133,7 @@ export default class Display {
     } catch (err) {
       if (viewName !== "error") {
         this.postView("error", ["FATAL", err]);
+        console.warn(err);
       } else {
         this.currentImport.element.remove();
         console.error(err);

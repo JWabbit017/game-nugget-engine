@@ -59,7 +59,7 @@ function HTML() {
   menu.setAttribute("id", "defaultView");
   menu.setAttribute("class", "display-filter");
 
-  const title = g.newElement("h2", "GNE v0.1.5");
+  const title = g.newElement("h2", "GNE v0.1.6");
 
   const list = g.newElement("ul");
 
