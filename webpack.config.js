@@ -10,7 +10,6 @@ module.exports = {
   resolve: {
     alias: {
       GameNugget: path.resolve(__dirname, "src/js/"),
-      View: path.resolve(__dirname, "src/js/modules/"),
     },
   },
 };
