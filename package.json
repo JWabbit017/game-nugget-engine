@@ -13,7 +13,10 @@
   "license": "MIT",
   "author": "JM Janszen",
   "main": "src/js/init.js",
-  "scripts": {},
+  "scripts": {
+    "sassDist": "sass src/sass/style.scss dist/game-nugget.css --style=compressed",
+    "sassDev": "sass src/sass/styleDev.scss src/css/game-nugget.css --style=compressed"
+  },
   "devDependencies": {},
   "caution": "Currently there if no automatic build step, as webpack has proved unsuitable for this project. We are working on this, thank you for your patience."
 }

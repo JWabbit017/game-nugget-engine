@@ -30,5 +30,6 @@ export default class Device {
 
   mountApp(appInstance) {
     this.app = appInstance;
+    this.preloadView = this.app?.preloadView ?? "defaultView";
   }
 }

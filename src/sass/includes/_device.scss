@@ -45,7 +45,7 @@
   border-top: none;
   grid-template-areas: "dpad buttons";
   justify-items: center;
-  background-image: url(../assets/images/device-backdrop.png);
+  background-image: url(./assets/images/device-backdrop.png);
   background-size: 20vw 53vh;
   background-position: 11vw -30vh;
   background-repeat: no-repeat;
@@ -153,14 +153,13 @@
 
 .display-filter,
 .display,
-.display img,
-.display > * {
+.display img {
   filter: saturate(60%) contrast(90%) hue-rotate(10deg) brightness(75%);
 }
 
 .display {
   background-color: rgba(119, 214, 119, 0.7);
-  background-image: url(../assets/images/scanlines.png); /* ik weet dat Advance SP's geen CRT displays hadden, maar het ziet er leuk uit */
+  background-image: url(./assets/images/scanlines.png); /* ik weet dat Advance SP's geen CRT displays hadden, maar het ziet er leuk uit */
   background-size: 80vw 80vh;
   background-repeat: repeat;
   background-blend-mode: difference;
