@@ -1,0 +1,23 @@
+{
+  "name": "game-nugget-engine",
+  "version": "0.1.5",
+  "description": "The Game Nugget retro web app platform",
+  "homepage": "https://github.com/JWabbit017/game-nugget-engine#readme",
+  "bugs": {
+    "url": "https://github.com/JWabbit017/game-nugget-engine/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JWabbit017/game-nugget-engine.git"
+  },
+  "license": "MIT",
+  "author": "JM Janszen",
+  "main": "src/js/init.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "webpack": "^5.104.1",
+    "webpack-cli": "^6.0.1"
+  }
+}
