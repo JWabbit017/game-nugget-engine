@@ -2,79 +2,81 @@ import thisApp from "../../init.js";
 import g from "../generic.js";
 import View from "../viewTemplate.js";
 
-let selectedMenuItem = 1;
+class DefaultView extends View {
+  static selectedMenuItem = 1;
 
-// Initialising function - see this as the constructor of the view
-export default function defaultView() {
-  selectedMenuItem = 1;
-  const view = new View(HTML(), {
-    aEvent: aEvent,
-    upEvent: upEvent,
-    downEvent: downEvent,
-  });
-  view.applyArrow = applyArrow;
-
-  return view;
-}
-
-function aEvent() {
-  thisApp.debugHandler.debugPrompt(aEvent2);
-}
-
-function getTarget() {
-  const thisLocation = document
-    .querySelector(".activeMenuItem")
-    .getAttribute("data-location");
-  return thisLocation;
-}
-
-function aEvent2(value) {
-  thisApp.display.postView(getTarget(), value);
-}
-
-function upEvent() {
-  if (selectedMenuItem > 1) selectedMenuItem--;
-  moveMenu();
-}
-
-function downEvent() {
-  if (selectedMenuItem < thisApp.views.length) selectedMenuItem++;
-  moveMenu();
-}
-
-function moveMenu() {
-  thisApp.debugHandler.createDebug("menu " + selectedMenuItem);
-  applyArrow();
-}
-
-function applyArrow() {
-  document.querySelector(".activeMenuItem").removeAttribute("class");
-  document
-    .querySelector(`#defaultView li:nth-of-type(${selectedMenuItem})`)
-    .setAttribute("class", "activeMenuItem");
-}
-
-function HTML() {
-  const menu = g.newElement("nav");
-  menu.setAttribute("id", "defaultView");
-  menu.setAttribute("class", "display-filter");
-
-  const title = g.newElement("h2", "GNE v0.1.6");
-
-  const list = g.newElement("ul");
-
-  for (const view of thisApp.views) {
-    if (thisApp.views.includes(view)) {
-      const el = g.newElement("li", view);
-      el.setAttribute("data-location", view);
-      if (view === "defaultView") el.setAttribute("class", "activeMenuItem");
-
-      list.appendChild(el);
-    }
+  constructor() {
+    super(DefaultView.HTML(), {
+      aEvent: DefaultView.requestParameterForView,
+      upEvent: DefaultView.menuUp,
+      downEvent: DefaultView.menuDown,
+    });
   }
 
-  menu.appendChild(title);
-  menu.appendChild(list);
+  static requestParameterForView() {
+    thisApp.debugHandler.debugPrompt(DefaultView.gotoSelected);
+  }
 
-  return menu;
+  static getTarget() {
+    const thisLocation = document
+      .querySelector(".activeMenuItem")
+      .getAttribute("data-location");
+    return thisLocation;
+  }
+
+  static menuUp() {
+    if (DefaultView.selectedMenuItem > 1) DefaultView.selectedMenuItem--;
+    DefaultView.moveMenu();
+  }
+
+  static gotoSelected(value) {
+    thisApp.display.postView(DefaultView.getTarget(), value);
+  }
+
+  static menuDown() {
+    if (DefaultView.selectedMenuItem < thisApp.views.length)
+      DefaultView.selectedMenuItem++;
+    DefaultView.moveMenu();
+  }
+
+  static moveMenu() {
+    thisApp.debugHandler.createDebug("menu " + DefaultView.selectedMenuItem);
+    DefaultView.applyArrow();
+  }
+
+  static applyArrow() {
+    document.querySelector(".activeMenuItem").removeAttribute("class");
+    document
+      .querySelector(
+        `#defaultView li:nth-of-type(${DefaultView.selectedMenuItem})`,
+      )
+      .setAttribute("class", "activeMenuItem");
+  }
+
+  static HTML() {
+    const menu = g.newElement("nav");
+    menu.setAttribute("id", "defaultView");
+    menu.setAttribute("class", "display-filter");
+
+    const title = g.newElement("h2", "GNE v0.1.6");
+
+    const list = g.newElement("ul");
+
+    for (const view of thisApp.views) {
+      if (thisApp.views.includes(view)) {
+        const el = g.newElement("li", view);
+        el.setAttribute("data-location", view);
+        if (view === "defaultView") el.setAttribute("class", "activeMenuItem");
+
+        list.appendChild(el);
+      }
+    }
+
+    menu.appendChild(title);
+    menu.appendChild(list);
+
+    return menu;
+  }
 }
+
+export default new DefaultView();

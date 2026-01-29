@@ -131,8 +131,10 @@ export default class Display {
 
       thisApp.debugHandler.createDebug("posted " + viewName, true);
     } catch (err) {
+      console.log(viewName);
       if (viewName !== "error") {
-        this.postView("error", ["FATAL", err]);
+        thisApp.lastError = ["FATAL", err];
+        this.postView("error");
         console.warn(err);
       } else {
         this.currentImport.element.remove();
@@ -146,17 +148,23 @@ export default class Display {
   async #getView(viewName, param = null) {
     const imp = await import(`${thisApp.viewDir}/${viewName}.js`);
 
-    const output = param == null ? imp.default() : imp.default(param);
-
-    return output;
+    return this.#processView(imp);
   }
 
   async #getInternalView(viewName, param = null) {
     const imp = await import(`./views/${viewName}.js`);
 
-    const output = param == null ? imp.default() : imp.default(param);
+    return this.#processView(imp);
+  }
 
-    return output;
+  async #processView(imp) {
+    if (typeof imp?.default === "function") {
+      return imp.default();
+    } else if (imp?.default) {
+      return imp.default;
+    }
+
+    throw `Invalid View instance passed`;
   }
 
   #bindControls(controls = { up, down, a, b }) {

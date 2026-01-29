@@ -2,27 +2,30 @@ import thisApp from "../../init.js";
 import View from "../viewTemplate.js";
 import g from "../generic.js";
 
-// Initialising function - see this as the constructor of the view
-export default function error(err) {
-  const view = new View(HTML(err), { bEvent: bEvent });
+class Error extends View {
+  constructor() {
+    super(Error.HTML(thisApp.lastError), {
+      bEvent: Error.returnToPreload,
+    });
+  }
 
-  return view;
+  static returnToPreload() {
+    thisApp.display.postView(thisApp.preloadView, null);
+  }
+
+  static HTML(err) {
+    const errorContainer = g.newElement("div");
+    errorContainer.setAttribute("id", "error");
+
+    const errorText = g.newElement("h2", `${err[0]}: ` + err[1] ?? err[0]);
+
+    const subtext = g.newElement("p", "Press B to reset the device.");
+
+    errorContainer.appendChild(errorText);
+    errorContainer.appendChild(subtext);
+
+    return errorContainer;
+  }
 }
 
-function bEvent() {
-  thisApp.display.postView(thisApp.preloadView, null);
-}
-
-function HTML(err) {
-  const errorContainer = g.newElement("div");
-  errorContainer.setAttribute("id", "error");
-
-  const errorText = g.newElement("h2", `${err[0]}: ` + err[1]);
-
-  const subtext = g.newElement("p", "Press B to reset the device.");
-
-  errorContainer.appendChild(errorText);
-  errorContainer.appendChild(subtext);
-
-  return errorContainer;
-}
+export default new Error();

@@ -38,7 +38,7 @@ export default class g {
    */
   static catchToDebug(funcName, err) {
     thisApp.debugHandler.createDebug(funcName + " error");
-    thisApp.display.lastError = err;
+    thisApp.display.lastError = ["CATCH", err];
   }
 
   /**
@@ -57,6 +57,7 @@ export default class g {
         throw new Error("Response is undefined");
       }
     } catch (err) {
+      thisApp.lastError = ["NETWORK", err];
       console.error(err);
     }
   }
