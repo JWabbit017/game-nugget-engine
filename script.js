@@ -1,3 +1,3 @@
-import GameNugget from "./src/js/init.js";
+import * as GNE from "./dist/index.js";
 
-GameNugget.start();
+GNE.GameNugget.start();

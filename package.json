@@ -13,11 +13,7 @@
   "license": "MIT",
   "author": "JM Janszen",
   "main": "src/js/init.js",
-  "scripts": {
-    "build": "webpack"
-  },
-  "devDependencies": {
-    "webpack": "^5.104.1",
-    "webpack-cli": "^6.0.1"
-  }
+  "scripts": {},
+  "devDependencies": {},
+  "caution": "Currently there if no automatic build step, as webpack has proved unsuitable for this project. We are working on this, thank you for your patience."
 }

@@ -77,7 +77,10 @@
   border: none;
   cursor: pointer;
   font-size: 1.2em;
-  transition: font-size 50ms, transform 50ms, box-shadow 50ms;
+  transition:
+    font-size 50ms,
+    transform 50ms,
+    box-shadow 50ms;
 
   &:last-of-type {
     transform: translateY(5px);
@@ -87,7 +90,10 @@
       font-size: 1.1em;
       transform: translateY(8px);
       box-shadow: 0px 2px 0px rgb(60, 60, 60);
-      transition: font-size 50ms, transform 50ms, box-shadow 50ms;
+      transition:
+        font-size 50ms,
+        transform 50ms,
+        box-shadow 50ms;
     }
   }
 
@@ -126,13 +132,17 @@
   cursor: pointer;
   border: 3px solid rgb(192, 28, 28);
   box-shadow: 2px 7px 0px rgb(214, 0, 0);
-  transition: transform 50ms, box-shadow 50ms;
+  transition:
+    transform 50ms,
+    box-shadow 50ms;
 }
 
 .button:active {
   transform: translate(3px, 5px);
   box-shadow: 0px 2px 0px rgb(214, 0, 0);
-  transition: transform 50ms, box-shadow 50ms;
+  transition:
+    transform 50ms,
+    box-shadow 50ms;
 }
 
 #stuff {
@@ -143,7 +153,8 @@
 
 .display-filter,
 .display,
-.display img {
+.display img,
+.display > * {
   filter: saturate(60%) contrast(90%) hue-rotate(10deg) brightness(75%);
 }
 

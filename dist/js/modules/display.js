@@ -141,8 +141,7 @@ export default class Display {
     }
   }
 
-  // I had to split these up the stupid way because import() does not accept an expression as parameter
-  // But somehow template literals in this way are fine
+  // I had to split these up the stupid way because import() does not accept any expression as parameter
   async #getView(viewName, param = null) {
     const imp = await import(`${thisApp.viewDir}/${viewName}.js`);
 

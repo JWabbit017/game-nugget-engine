@@ -23,25 +23,12 @@ export default class Device {
 
   /**
    * @summary Initialises the Game Nugget with the preload specified in this.preloadView, or defaultView if null.
-   * This method should in most cases be called at the very end of your app's script, and after mountApp has finished.
    */
   start() {
-    try {
-      if (!this.display || !this.debugHandler)
-        throw "One or more subsystems are undefined";
-
-      this.display.preload(this.preloadView);
-    } catch (err) {
-      console.error(err);
-    }
+    this.display.preload(this.preloadView);
   }
 
-  /**
-   * @summary Mounts your app to the Game Nugget as GameNugget.app.
-   * @param {object} appInstance A class instance serving as the entry point for your app.
-   */
   mountApp(appInstance) {
     this.app = appInstance;
-    this.preloadView = this.app?.preloadView ?? "defaultView";
   }
 }
