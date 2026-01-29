@@ -9,7 +9,6 @@ While we're working on neat documentation, here's a basic guide to get your Game
 1. Put the dist folder in your project's root
 2. Link "{your GNE folder}/game-nugget.css" to your project's index.php
 3. Use PHP to include "{your GNE folder}/gameNugget.php" inside your index's container div
-   Hot tip: To skip step 2 and 3, you could simply copy over the index.php from the Game Nugget's repository
 4. In your own script, import the following: import \* as GNE from "{your GNE folder}/index.js"
 5. Save GNE.GameNugget in a (preferrably) global scope variable - this is the live instance that will be running your app
 6. Call GameNugget.start() at the end of your script
