@@ -57,6 +57,7 @@ export default class g {
         throw new Error("Response is undefined");
       }
     } catch (err) {
+      thisApp.display.postView("error", ["NETWORKING", err]);
       console.error(err);
     }
   }

@@ -18,14 +18,18 @@ class ErrorView extends View {
   }
 
   static returnToPreload() {
-    thisApp.display.postView(thisApp.preloadView, null);
+    thisApp.display.postView(thisApp.preloadView);
   }
 
   static HTML(err) {
     const errorContainer = g.newElement("div");
     errorContainer.setAttribute("id", "error");
 
-    const errorText = g.newElement("h2", `${err[0]}: ` + err[1] ?? err[0]);
+    const errorText = g.newElement(
+      "h2",
+      `${err[0]} => ` + err[1] ??
+        "Something went wrong and the creator of this view didn't quite expect that",
+    );
 
     const subtext = g.newElement("p", "Press B to reset the device.");
 
@@ -36,6 +40,6 @@ class ErrorView extends View {
   }
 }
 
-export default (param) => {
+export default (param = null) => {
   return new ErrorView(param);
 };

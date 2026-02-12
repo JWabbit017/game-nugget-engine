@@ -103,7 +103,7 @@ export default class Display {
   async postView(viewName, param = null) {
     try {
       // If the previous view had events, remove them
-      if (this.currentImport !== undefined) {
+      if (this.currentImport?.removeEvents) {
         this.currentImport.removeEvents();
       }
 
@@ -117,7 +117,7 @@ export default class Display {
       }
 
       // --Like this
-      if (this.currentImport.appendEvents !== undefined) {
+      if (this.currentImport.appendEvents) {
         this.currentImport.appendEvents();
       }
 
@@ -126,8 +126,7 @@ export default class Display {
       thisApp.debugHandler.createDebug("posted " + viewName, true);
     } catch (err) {
       if (viewName !== "error") {
-        thisApp.lastError = ["FATAL", err];
-        this.postView("error");
+        this.postView("error", ["FATAL", err]);
       } else {
         this.currentImport.element.remove();
       }
@@ -151,13 +150,11 @@ export default class Display {
   }
 
   async #processView(imp, param) {
-    if (typeof imp?.default === "function") {
-      return imp.default(param);
-    } else if (imp?.default) {
-      return imp.default;
-    }
+    if (!imp) throw "Invalid View instance passed";
 
-    throw `Invalid View instance passed`;
+    return typeof imp?.default === "function"
+      ? imp.default(param)
+      : imp?.default;
   }
 
   #bindControls(controls = { up, down, a, b }) {
