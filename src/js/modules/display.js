@@ -43,7 +43,7 @@ export default class Display {
    * @summary In charge of inserting the view's node into the display.
    */
   #appendView() {
-    if (g.isValidObject(this.element.children[0])) {
+    if (this.element.children[0]) {
       this.element.children[0].remove();
     }
     this.element.appendChild(this.currentView);
@@ -73,25 +73,19 @@ export default class Display {
     this.currentView.scrollBy(0, displayHeight * amount);
   }
 
-  /**
-   * @summary Returns a number corresponding to the current view mode of the browser. Returns 2 for mobile views, and 3 for tablet/desktop.
-   * @returns {number} 2 | 3
-   */
-  viewType() {
-    if (this.#isMobileView() && !this.#isMediumView()) {
-      return 2;
-    } else {
-      return 3;
-    }
-  }
-
-  #isMobileView() {
-    return Number(document.documentElement.clientWidth) <= 800 ? true : false;
-  }
-
-  #isMediumView() {
+  isMobileView() {
     if (
-      !this.#isMobileView() &&
+      !this.isMediumView() &&
+      Number(document.documentElement.clientWidth) <= 800
+    ) {
+      return true;
+    }
+    return false;
+  }
+
+  isMediumView() {
+    if (
+      !this.isMobileView() &&
       Number(document.documentElement.clientWidth <= 1420)
     ) {
       return true;
@@ -134,12 +128,11 @@ export default class Display {
       if (viewName !== "error") {
         thisApp.lastError = ["FATAL", err];
         this.postView("error");
-        console.error(err);
       } else {
         this.currentImport.element.remove();
-        console.error(err);
       }
       thisApp.debugHandler.createDebug("FATAL", true);
+      console.error(err);
     }
   }
 
@@ -168,16 +161,16 @@ export default class Display {
   }
 
   #bindControls(controls = { up, down, a, b }) {
-    if (g.isValidObject(controls.a)) {
+    if (controls?.a) {
       this.controls.a = controls.a;
     }
-    if (g.isValidObject(controls.b)) {
+    if (controls?.b) {
       this.controls.b = controls.b;
     }
-    if (g.isValidObject(controls.up)) {
+    if (controls?.up) {
       this.controls.up = controls.up;
     }
-    if (g.isValidObject(controls.down)) {
+    if (controls?.down) {
       this.controls.down = controls.down;
     }
   }

@@ -3,9 +3,14 @@ import View from "../viewTemplate.js";
 import g from "../generic.js";
 
 class ErrorView extends View {
+  static unknownError = [
+    "UNKNOWN",
+    "please contact the developer of the view that caused this error",
+  ];
+
   constructor(err) {
     let refinedError = err;
-    if (!err[1]) refinedError = thisApp.unknownError;
+    if (!err[1]) refinedError = ErrorView.unknownError;
 
     super(ErrorView.HTML(refinedError), {
       bEvent: ErrorView.returnToPreload,

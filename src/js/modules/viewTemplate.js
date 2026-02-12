@@ -1,5 +1,4 @@
 import thisApp from "../init.js";
-import g from "./generic.js";
 
 export default class View {
   aEvent = null;
@@ -17,25 +16,23 @@ export default class View {
   constructor(element, events = {}) {
     this.element = element;
 
-    this.aEvent = events.aEvent ?? null;
-    this.bEvent = events.bEvent ?? null;
-    this.upEvent = events.upEvent ?? null;
-    this.downEvent = events.downEvent ?? null;
-    this.miscEvents = events.miscEvent ?? null;
+    this.aEvent = events?.aEvent;
+    this.bEvent = events?.bEvent;
+    this.upEvent = events?.upEvent;
+    this.downEvent = events?.downEvent;
+    this.miscEvents = events?.miscEvent;
   }
 
   appendEvents() {
-    if (g.isValidObject(this.aEvent))
-      View.appControls.a.addEventListener("click", this.aEvent);
-    if (g.isValidObject(this.bEvent))
-      View.appControls.b.addEventListener("click", this.bEvent);
+    if (this.aEvent) View.appControls.a.addEventListener("click", this.aEvent);
+    if (this.bEvent) View.appControls.b.addEventListener("click", this.bEvent);
 
-    if (this.upEvent !== null)
+    if (this.upEvent)
       View.appControls.up.addEventListener("click", this.upEvent);
-    if (this.downEvent !== null)
+    if (this.downEvent)
       View.appControls.down.addEventListener("click", this.downEvent);
 
-    if (this.miscEvents !== null)
+    if (this.miscEvents)
       document.addEventListener("keydown", (event) => {
         this.miscEvents(event);
       });
