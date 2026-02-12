@@ -132,8 +132,9 @@ export default class Display {
       thisApp.debugHandler.createDebug("posted " + viewName, true);
     } catch (err) {
       if (viewName !== "error") {
-        this.postView("error", ["FATAL", err]);
-        console.warn(err);
+        thisApp.lastError = ["FATAL", err];
+        this.postView("error");
+        console.error(err);
       } else {
         this.currentImport.element.remove();
         console.error(err);
@@ -143,20 +144,27 @@ export default class Display {
   }
 
   // I had to split these up the stupid way because import() does not accept any expression as parameter
+  // But somehow a template literal is fine
   async #getView(viewName, param = null) {
     const imp = await import(`${thisApp.viewDir}/${viewName}.js`);
 
-    const output = param == null ? imp.default() : imp.default(param);
-
-    return output;
+    return this.#processView(imp, param);
   }
 
   async #getInternalView(viewName, param = null) {
     const imp = await import(`./views/${viewName}.js`);
 
-    const output = param == null ? imp.default() : imp.default(param);
+    return this.#processView(imp, param);
+  }
 
-    return output;
+  async #processView(imp, param) {
+    if (typeof imp?.default === "function") {
+      return imp.default(param);
+    } else if (imp?.default) {
+      return imp.default;
+    }
+
+    throw `Invalid View instance passed`;
   }
 
   #bindControls(controls = { up, down, a, b }) {
