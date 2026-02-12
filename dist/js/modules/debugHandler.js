@@ -66,12 +66,12 @@ export default class DebugHandler {
     // Doing it this way because of some weird scope issue I can't be bothered to look into
     if (!prompted) {
       go.addEventListener("click", () => {
-        this.#debugCommands(input.value);
+        this.#debugCommands(input.value ?? null);
         command.remove();
       });
     } else {
       go.addEventListener("click", () => {
-        responseFunc(input.value);
+        responseFunc(input.value ?? null);
         command.remove();
       });
     }

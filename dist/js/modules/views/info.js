@@ -2,26 +2,29 @@ import thisApp from "../../init.js";
 import View from "../viewTemplate.js";
 import g from "../generic.js";
 
-// Initialising function - see this as the constructor of the view
-export default function info(text, duration = 2000) {
-  const previous = thisApp.display.currentImport;
+class Info extends View {
+  constructor(text) {
+    super(Info.HTML(text));
 
-  const view = new View(HTML(text));
+    const previous = thisApp.display.currentImport;
 
-  setTimeout(() => {
-    thisApp.display.postView(previous.element.getAttribute("id"));
-  }, duration);
+    setTimeout(() => {
+      thisApp.display.postView(previous.element.getAttribute("id"));
+    }, 2000);
+  }
 
-  return view;
+  static HTML(text) {
+    const errorContainer = g.newElement("div");
+    errorContainer.setAttribute("id", "info");
+
+    const infoText = g.newElement("h2", text);
+
+    errorContainer.appendChild(infoText);
+
+    return errorContainer;
+  }
 }
 
-function HTML(text) {
-  const errorContainer = g.newElement("div");
-  errorContainer.setAttribute("id", "info");
-
-  const infoText = g.newElement("h2", text);
-
-  errorContainer.appendChild(infoText);
-
-  return errorContainer;
-}
+export default (param) => {
+  return new Info(param);
+};

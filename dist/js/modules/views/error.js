@@ -3,8 +3,11 @@ import View from "../viewTemplate.js";
 import g from "../generic.js";
 
 class ErrorView extends View {
-  constructor() {
-    super(ErrorView.HTML(thisApp.lastError), {
+  constructor(err) {
+    let refinedError = err;
+    if (!err[1]) refinedError = thisApp.unknownError;
+
+    super(ErrorView.HTML(refinedError), {
       bEvent: ErrorView.returnToPreload,
     });
   }

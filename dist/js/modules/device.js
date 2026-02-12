@@ -11,7 +11,7 @@ export default class Device {
   };
   preloadView = "defaultView";
   viewDir = "./views";
-  lastError = [
+  unknownError = [
     "UNKNOWN",
     "please contact the developer of the view that caused this error",
   ];
@@ -27,6 +27,7 @@ export default class Device {
 
   /**
    * @summary Initialises the Game Nugget with the preload specified in this.preloadView, or defaultView if null.
+   * This method should in most cases be called at the very end of your app's script, and after mountApp has finished.
    */
   start() {
     try {
@@ -39,6 +40,10 @@ export default class Device {
     }
   }
 
+  /**
+   * @summary Mounts your app to the Game Nugget as GameNugget.app.
+   * @param {object} appInstance A class instance serving as the entry point for your app.
+   */
   mountApp(appInstance) {
     this.app = appInstance;
     this.preloadView = this.app?.preloadView ?? "defaultView";

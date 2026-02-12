@@ -1,6 +1,6 @@
 import thisApp from "../../init.js";
 
-export default class ListView extends View {
+export default class ListPreset {
   listLength = 1;
 
   static upEvent() {
