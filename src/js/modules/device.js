@@ -13,7 +13,7 @@ export default class Device {
   viewDir = "./views";
   unknownError = [
     "UNKNOWN",
-    "please contact the developer of the view that caused this error",
+    "Something went wrong and the creator of this view didn't quite expect that",
   ];
 
   /**
