@@ -2,64 +2,63 @@ import thisApp from "../../init.js";
 import g from "../generic.js";
 import View from "../viewTemplate.js";
 
-export default new DefaultView();
-
 class DefaultView extends View {
-  selectedMenuItem = 1;
+  static selectedMenuItem = 1;
 
   constructor() {
-    super(this.HTML(), {
-      aEvent: this.requestParameterForView,
-      upEvent: this.menuUp,
-      downEvent: this.menuDown,
+    super(DefaultView.HTML(), {
+      aEvent: DefaultView.requestParameterForView,
+      upEvent: DefaultView.menuUp,
+      downEvent: DefaultView.menuDown,
     });
-
-    this.selectedMenuItem = 1;
   }
 
-  requestParameterForView() {
-    thisApp.debugHandler.debugPrompt(aEvent2);
+  static requestParameterForView() {
+    thisApp.debugHandler.debugPrompt(DefaultView.gotoSelected);
   }
 
-  getTarget() {
+  static getTarget() {
     const thisLocation = document
       .querySelector(".activeMenuItem")
       .getAttribute("data-location");
     return thisLocation;
   }
 
-  menuUp() {
-    if (selectedMenuItem > 1) selectedMenuItem--;
-    this.moveMenu();
+  static menuUp() {
+    if (DefaultView.selectedMenuItem > 1) DefaultView.selectedMenuItem--;
+    DefaultView.moveMenu();
   }
 
-  gotoSelected(value) {
-    thisApp.display.postView(this.getTarget(), value);
+  static gotoSelected(value) {
+    thisApp.display.postView(DefaultView.getTarget(), value);
   }
 
-  menuDown() {
-    if (selectedMenuItem < thisApp.views.length) selectedMenuItem++;
-    this.moveMenu();
+  static menuDown() {
+    if (DefaultView.selectedMenuItem < thisApp.views.length)
+      DefaultView.selectedMenuItem++;
+    DefaultView.moveMenu();
   }
 
-  moveMenu() {
-    thisApp.debugHandler.createDebug("menu " + selectedMenuItem);
-    this.applyArrow();
+  static moveMenu() {
+    thisApp.debugHandler.createDebug("menu " + DefaultView.selectedMenuItem);
+    DefaultView.applyArrow();
   }
 
-  applyArrow() {
+  static applyArrow() {
     document.querySelector(".activeMenuItem").removeAttribute("class");
     document
-      .querySelector(`#defaultView li:nth-of-type(${selectedMenuItem})`)
+      .querySelector(
+        `#defaultView li:nth-of-type(${DefaultView.selectedMenuItem})`,
+      )
       .setAttribute("class", "activeMenuItem");
   }
 
-  HTML() {
+  static HTML() {
     const menu = g.newElement("nav");
     menu.setAttribute("id", "defaultView");
     menu.setAttribute("class", "display-filter");
 
-    const title = g.newElement("h2", "GNE v0.1.6");
+    const title = g.newElement("h2", "GNE v0.2.0");
 
     const list = g.newElement("ul");
 
@@ -79,3 +78,5 @@ class DefaultView extends View {
     return menu;
   }
 }
+
+export default new DefaultView();

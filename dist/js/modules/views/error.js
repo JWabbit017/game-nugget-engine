@@ -2,10 +2,10 @@ import thisApp from "../../init.js";
 import View from "../viewTemplate.js";
 import g from "../generic.js";
 
-class Error extends View {
+class ErrorView extends View {
   constructor() {
-    super(Error.HTML(thisApp.lastError), {
-      bEvent: Error.returnToPreload,
+    super(ErrorView.HTML(thisApp.lastError), {
+      bEvent: ErrorView.returnToPreload,
     });
   }
 
@@ -28,4 +28,6 @@ class Error extends View {
   }
 }
 
-export default new Error();
+export default (param) => {
+  return new ErrorView(param);
+};

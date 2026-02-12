@@ -1,6 +1,6 @@
 {
   "name": "game-nugget-engine",
-  "version": "0.1.6",
+  "version": "0.2.0",
   "description": "The Game Nugget retro web app platform",
   "homepage": "https://github.com/JWabbit017/game-nugget-engine#readme",
   "bugs": {
@@ -12,7 +12,7 @@
   },
   "license": "MIT",
   "author": "JM Janszen",
-  "main": "src/js/init.js",
+  "main": "dist/index.js",
   "scripts": {
     "sassDist": "sass src/sass/style.scss dist/game-nugget.css --style=compressed",
     "sassDev": "sass src/sass/styleDev.scss src/css/game-nugget.css --style=compressed"
