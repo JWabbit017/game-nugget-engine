@@ -11,10 +11,6 @@ export default class Device {
   };
   preloadView = "defaultView";
   viewDir = "./views";
-  unknownError = [
-    "UNKNOWN",
-    "please contact the developer of the view that caused this error",
-  ];
 
   /**
    * @param {Display} display

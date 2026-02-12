@@ -1,25 +1,29 @@
 import thisApp from "../../init.js";
 
-export default class ListPreset {
-  listLength = 1;
+export default class ListView {
+  static listLength = 1;
 
-  static upEvent() {
+  static validListPresent() {
+    return document.querySelector("ul .activeMenuItem");
+  }
+
+  static up() {
     if (selectedMenuItem > 1) {
       selectedMenuItem--;
-      this.moveMenu();
+      ListView.moveMenu();
     }
   }
 
-  static downEvent() {
+  static down() {
     if (selectedMenuItem < listLength) {
       selectedMenuItem++;
-      this.moveMenu();
+      ListView.moveMenu();
     }
   }
 
   static moveMenu() {
     thisApp.debugHandler.createDebug("menu " + selectedMenuItem);
-    this.applyArrow();
+    ListView.applyArrow();
   }
 
   static applyArrow() {

@@ -26,9 +26,12 @@ export default class DebugHandler {
   createDebug(text, queue = false) {
     if (thisApp.config.debugOutput) {
       if (this.debugPresent() && queue) {
-        setTimeout(() => {
-          this.#postDebug(text);
-        }, 1000);
+        const pingForDebug = setInterval(() => {
+          if (!this.debugPresent()) {
+            this.#postDebug(text);
+            clearInterval(pingForDebug);
+          }
+        }, 100);
       } else {
         this.#postDebug(text);
       }
@@ -36,7 +39,7 @@ export default class DebugHandler {
   }
 
   #postDebug(text) {
-    const debug = g.newElement("span", "<" + text + ">");
+    const debug = g.newElement("span", `<${text}>`);
     debug.setAttribute("id", "debug");
     debug.setAttribute("class", "display-filter");
 
