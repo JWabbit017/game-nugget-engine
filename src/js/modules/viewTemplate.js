@@ -1,4 +1,5 @@
 import thisApp from "../init.js";
+import g from "./generic.js";
 
 export default class View {
   aEvent = null;
@@ -13,7 +14,15 @@ export default class View {
 
   element = null;
 
-  constructor(element, events = {}) {
+  constructor(
+    element,
+    events = {},
+    preWriteEvent = async () => {
+      return true;
+    },
+  ) {
+    this.#preWrite(preWriteEvent);
+
     this.element = element;
 
     this.aEvent = events?.aEvent;
@@ -21,6 +30,18 @@ export default class View {
     this.upEvent = events?.upEvent;
     this.downEvent = events?.downEvent;
     this.miscEvents = events?.miscEvent;
+  }
+
+  async #preWrite(event) {
+    try {
+      if (typeof event !== "function")
+        throw "preWriteEvent was passed but is not a function";
+
+      this.preWriteValue = await event();
+    } catch (err) {
+      g.catchToDebug("preWrite", err);
+      appDisplay.postView("error", ["preWrite", err]);
+    }
   }
 
   appendEvents() {
