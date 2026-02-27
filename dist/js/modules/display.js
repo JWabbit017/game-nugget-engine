@@ -74,10 +74,7 @@ export default class Display {
   }
 
   isMobileView() {
-    if (
-      !this.isMediumView() &&
-      Number(document.documentElement.clientWidth) <= 800
-    ) {
+    if (Number(document.documentElement.clientWidth) <= 800) {
       return true;
     }
     return false;
