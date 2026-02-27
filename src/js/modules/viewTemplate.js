@@ -2,6 +2,7 @@ import thisApp from "../init.js";
 import g from "./generic.js";
 
 export default class View {
+  preWriteEvent = null;
   aEvent = null;
   bEvent = null;
   upEvent = null;
@@ -16,15 +17,18 @@ export default class View {
 
   constructor(
     element,
-    events = {},
-    preWriteEvent = async () => {
-      return true;
+    events = {
+      preWriteEvent: async () => {},
+      aEvent: () => {},
+      bEvent: () => {},
+      upEvent: () => {},
+      downEvent: () => {},
+      miscEvent: () => {},
     },
   ) {
-    this.#preWrite(preWriteEvent);
-
     this.element = element;
 
+    this.preWriteEvent = events?.preWriteEvent;
     this.aEvent = events?.aEvent;
     this.bEvent = events?.bEvent;
     this.upEvent = events?.upEvent;
@@ -42,6 +46,12 @@ export default class View {
       g.catchToDebug("preWrite", err);
       appDisplay.postView("error", ["preWrite", err]);
     }
+  }
+
+  async build() {
+    if (this.preWriteEvent) await this.#preWrite(this.preWriteEvent);
+
+    this.appendEvents();
   }
 
   appendEvents() {
