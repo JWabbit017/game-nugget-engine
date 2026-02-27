@@ -118,7 +118,7 @@ export default class Display {
 
       // --Like this
       if (this.currentImport.appendEvents) {
-        this.currentImport.appendEvents();
+        await this.currentImport.build();
       }
 
       this.#write(this.currentImport.element);
