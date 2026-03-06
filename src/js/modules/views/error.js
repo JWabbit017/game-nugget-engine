@@ -12,12 +12,10 @@ class ErrorView extends View {
     let refinedError = err;
     if (!err[1]) refinedError = ErrorView.unknownError;
 
-    super(ErrorView.HTML(refinedError), {
-      bEvent: ErrorView.returnToPreload,
-    });
+    super(ErrorView.HTML(refinedError), {});
   }
 
-  static returnToPreload() {
+  bEvent() {
     thisApp.display.postView(thisApp.preloadView);
   }
 
@@ -27,7 +25,7 @@ class ErrorView extends View {
 
     const errorText = g.newElement(
       "h2",
-      `${err[0]} => ` + err[1] ??
+      `${err[0] ?? "UNKNOWN"} => ` + err[1] ??
         "Something went wrong and the creator of this view didn't quite expect that",
     );
 

@@ -4,9 +4,9 @@ import g from "../generic.js";
 
 class Info extends View {
   constructor(text) {
-    super(Info.HTML(text));
-
     const previous = thisApp.display.currentImport;
+
+    super(Info.HTML(text));
 
     setTimeout(() => {
       thisApp.display.postView(previous.element.getAttribute("id"));

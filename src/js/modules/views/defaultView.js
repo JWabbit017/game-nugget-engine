@@ -6,10 +6,10 @@ class DefaultView extends View {
   static selectedMenuItem = 1;
 
   constructor() {
-    super(DefaultView.HTML(), {
-      aEvent: DefaultView.requestParameterForView,
-      upEvent: DefaultView.menuUp,
-      downEvent: DefaultView.menuDown,
+    super(DefaultView.HTML, {
+      a: DefaultView.requestParameterForView,
+      up: DefaultView.menuUp,
+      down: DefaultView.menuDown,
     });
   }
 

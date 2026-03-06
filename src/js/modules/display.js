@@ -5,10 +5,16 @@ import g from "./generic.js";
 
 export default class Display {
   element;
+  /**
+   * @summary The HTML element(s) currently on the display - corresponds to this.currentImport.element
+   */
   currentView;
+  /**
+   * @summary The View instance currently in use by GNE
+   */
   currentImport;
   lastError;
-  controls = {};
+  controls = { a: null, b: null, up: null, down: null };
 
   // --- CONSTRUCTOR
 
@@ -109,26 +115,31 @@ export default class Display {
       // We save the current view in a class-scope property so we can handle the corresponding events seperately from any other views that may be being processed --
       if (isInternalView) {
         this.currentImport = await this.#getInternalView(viewName, param);
+        thisApp.activeView = this.currentImport;
       } else {
         this.currentImport = await this.#getView(viewName, param);
       }
 
-      // --Like this
-      if (this.currentImport.appendEvents) {
-        await this.currentImport.build();
-      }
+      const element = await this.currentImport.build();
 
-      this.#write(this.currentImport.element);
+      // --Like this
+      this.#write(element);
+      this.currentImport.appendEvents();
+
+      if (this.currentImport?.postWrite) {
+        this.currentImport.postWrite();
+      }
 
       thisApp.debugHandler.createDebug("posted " + viewName, true);
     } catch (err) {
       if (viewName !== "error") {
         this.postView("error", ["FATAL", err]);
       } else {
-        this.currentImport.element.remove();
+        this.currentImport.construct.remove();
       }
       thisApp.debugHandler.createDebug("FATAL", true);
       console.error(err);
+      return false;
     }
   }
 
@@ -146,7 +157,7 @@ export default class Display {
     return this.#processView(imp, param);
   }
 
-  async #processView(imp, param) {
+  async #processView(imp, param = null) {
     if (!imp) throw "Invalid View instance passed";
 
     return typeof imp?.default === "function"
