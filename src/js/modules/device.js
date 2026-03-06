@@ -44,4 +44,15 @@ export default class Device {
     this.app = appInstance;
     this.preloadView = this.app?.preloadView ?? "defaultView";
   }
+
+  error(errorOrigin, errorMessage) {
+    try {
+      if (!this?.display) throw "GNE initialisation error";
+
+      this.display.postView("error", [errorOrigin, errorMessage]);
+    } catch (err) {
+      console.error(err);
+      return;
+    }
+  }
 }
