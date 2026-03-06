@@ -29,7 +29,7 @@ export default class View {
       up: null,
       down: null,
       misc: null,
-    } = null,
+    },
   ) {
     this.construct = construct ?? this?.construct;
 
