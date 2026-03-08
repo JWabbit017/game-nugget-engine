@@ -15,7 +15,8 @@
   "main": "dist/index.js",
   "scripts": {
     "sassDist": "sass src/sass/style.scss dist/game-nugget.css --style=compressed",
-    "sassDev": "sass src/sass/styleDev.scss src/css/game-nugget.css --style=compressed"
+    "sassDev": "sass src/sass/styleDev.scss src/css/game-nugget.css --style=compressed",
+    "GNE_build_test": "php styleCompiler.php"
   },
   "devDependencies": {},
   "caution": "Currently there if no automatic build step, as webpack has proved unsuitable for this project. We are working on this, thank you for your patience."

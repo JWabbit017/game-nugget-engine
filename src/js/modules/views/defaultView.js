@@ -53,6 +53,12 @@ class DefaultView extends View {
       .setAttribute("class", "activeMenuItem");
   }
 
+  VStyle() {
+    return `#container {
+      background-color: #FFFFFF;
+    }`;
+  }
+
   static HTML() {
     const menu = g.newElement("nav");
     menu.setAttribute("id", "defaultView");
