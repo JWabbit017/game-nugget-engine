@@ -52,7 +52,12 @@ export default class Display {
     if (this.element.children[0]) {
       this.element.children[0].remove();
     }
-    this.element.appendChild(this.currentView);
+
+    if (typeof this.currentView === "string") {
+      this.element.innerHTML = this.currentView;
+    } else if (typeof this.currentView === "object") {
+      this.element.appendChild(this.currentView);
+    }
   }
 
   /**
