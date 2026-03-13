@@ -19,6 +19,12 @@ export default class View {
   static appDisplay = View.app.display;
   static appControls = View.appDisplay.controls;
 
+  options = {
+    requiresParameter: false,
+    isInternalView: false,
+    returnsFunction: false,
+  };
+
   constructor(
     construct = null,
     events = {

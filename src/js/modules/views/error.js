@@ -12,6 +12,8 @@ class ErrorView extends View {
     if (!err[1]) refinedError = ErrorView.unknownError;
 
     super(ErrorView.HTML(refinedError), { b: ErrorView.gotoPreload });
+
+    this.options.requiresParameter = true;
   }
 
   static gotoPreload() {
