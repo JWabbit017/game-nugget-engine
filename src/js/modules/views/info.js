@@ -10,6 +10,8 @@ class Info extends View {
     setTimeout(() => {
       thisApp.display.postView(previous.element.getAttribute("id"));
     }, 2000);
+
+    this.options.requiresParameter = true;
   }
 
   static HTML(text) {
