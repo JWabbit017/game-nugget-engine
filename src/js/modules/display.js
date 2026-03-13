@@ -127,6 +127,13 @@ export default class Display {
 
       const element = await this.currentImport.build();
 
+      if (!element) throw "View build failed";
+
+      if (this.currentImport?.options?.requiresParameter) {
+        if (!param)
+          throw `View ${element?.id ?? ""} has option requiredParameter enabled, ${typeof param} passed`;
+      }
+
       // --Like this
       this.#write(element);
       this.currentImport.appendEvents();

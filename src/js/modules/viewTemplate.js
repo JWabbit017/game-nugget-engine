@@ -31,8 +31,22 @@ export default class View {
       misc: null,
     },
   ) {
-    this.construct = construct ?? this?.HTML;
+    if (construct) this.construct = construct ?? this?.HTML;
 
+    if (events) this.assignEvents(events);
+  }
+
+  assignEvents(
+    events = {
+      preWrite: null,
+      postWrite: null,
+      a: null,
+      b: null,
+      up: null,
+      down: null,
+      misc: null,
+    },
+  ) {
     if (events) {
       this.events.preWrite = events?.preWrite ?? this?.preWrite;
       this.events.postWrite = events?.postWrite ?? this?.postWrite;
