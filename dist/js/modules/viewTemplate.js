@@ -2,41 +2,69 @@ import thisApp from "../init.js";
 import g from "./generic.js";
 
 export default class View {
-  preWriteEvent = null;
-  aEvent = null;
-  bEvent = null;
-  upEvent = null;
-  downEvent = null;
-  miscEvents = null;
+  events = {
+    preWrite: null,
+    postWrite: null,
+    a: null,
+    b: null,
+    up: null,
+    down: null,
+    misc: null,
+  };
+
+  construct = null;
+  element = null;
 
   static app = thisApp;
   static appDisplay = View.app.display;
   static appControls = View.appDisplay.controls;
 
-  element = null;
+  options = {
+    requiresParameter: false,
+    isInternalView: false,
+    returnsFunction: false,
+  };
 
   constructor(
-    element,
+    construct = null,
     events = {
-      preWriteEvent: async () => {},
-      aEvent: () => {},
-      bEvent: () => {},
-      upEvent: () => {},
-      downEvent: () => {},
-      miscEvent: () => {},
+      preWrite: null,
+      postWrite: null,
+      a: null,
+      b: null,
+      up: null,
+      down: null,
+      misc: null,
     },
   ) {
-    this.element = element;
+    if (construct) this.construct = construct ?? this?.HTML;
 
-    this.preWriteEvent = events?.preWriteEvent;
-    this.aEvent = events?.aEvent;
-    this.bEvent = events?.bEvent;
-    this.upEvent = events?.upEvent;
-    this.downEvent = events?.downEvent;
-    this.miscEvents = events?.miscEvent;
+    if (events) this.assignEvents(events);
   }
 
-  async #preWrite(event) {
+  assignEvents(
+    events = {
+      preWrite: null,
+      postWrite: null,
+      a: null,
+      b: null,
+      up: null,
+      down: null,
+      misc: null,
+    },
+  ) {
+    if (events) {
+      this.events.preWrite = events?.preWrite ?? this?.preWrite;
+      this.events.postWrite = events?.postWrite ?? this?.postWrite;
+      this.events.a = events?.a ?? this?.aEvent;
+      this.events.b = events?.b ?? this?.bEvent;
+      this.events.up = events?.up ?? this?.upEvent;
+      this.events.down = events?.down ?? this?.downEvent;
+      this.events.misc = events?.misc ?? this?.miscEvent;
+    }
+  }
+
+  async #awaitPreWrite(event) {
     try {
       if (typeof event !== "function")
         throw "preWriteEvent was passed but is not a function";
@@ -49,21 +77,27 @@ export default class View {
   }
 
   async build() {
-    if (this.preWriteEvent) await this.#preWrite(this.preWriteEvent);
+    if (this.events.preWrite) await this.#awaitPreWrite(this.events.preWrite);
 
-    this.appendEvents();
+    if (typeof this.construct === "function") {
+      this.element = await this.construct();
+    } else this.element = this.construct;
+
+    return this.element ?? false;
   }
 
   appendEvents() {
-    if (this.aEvent) View.appControls.a.addEventListener("click", this.aEvent);
-    if (this.bEvent) View.appControls.b.addEventListener("click", this.bEvent);
+    if (this.events.a)
+      View.appControls.a.addEventListener("click", this.events.a);
+    if (this.events.b)
+      View.appControls.b.addEventListener("click", this.events.b);
 
-    if (this.upEvent)
-      View.appControls.up.addEventListener("click", this.upEvent);
-    if (this.downEvent)
-      View.appControls.down.addEventListener("click", this.downEvent);
+    if (this.events.up)
+      View.appControls.up.addEventListener("click", this.events.up);
+    if (this.events.down)
+      View.appControls.down.addEventListener("click", this.events.down);
 
-    if (this.miscEvents)
+    if (this.events.misc)
       document.addEventListener("keydown", (event) => {
         this.miscEvents(event);
       });
@@ -71,11 +105,11 @@ export default class View {
 
   removeEvents() {
     // Turns out removeEventListener doesn't really seem to care if the event exists or not, so I can leave out the null checks
-    View.appControls.a.removeEventListener("click", this.aEvent);
-    View.appControls.b.removeEventListener("click", this.bEvent);
+    View.appControls.a.removeEventListener("click", this.events.a);
+    View.appControls.b.removeEventListener("click", this.events.b);
 
-    View.appControls.up.removeEventListener("click", this.upEvent);
-    View.appControls.down.removeEventListener("click", this.downEvent);
+    View.appControls.up.removeEventListener("click", this.events.up);
+    View.appControls.down.removeEventListener("click", this.events.down);
 
     document.removeEventListener("keydown", (event) => {
       this.miscEvents(event);
