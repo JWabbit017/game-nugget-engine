@@ -131,8 +131,8 @@ export default class Display {
       this.#write(element);
       this.currentImport.appendEvents();
 
-      if (this.currentImport?.postWrite) {
-        this.currentImport.postWrite();
+      if (this.currentImport.events?.postWrite) {
+        this.currentImport.events.postWrite();
       }
 
       thisApp.debugHandler.createDebug("posted " + viewName, true);

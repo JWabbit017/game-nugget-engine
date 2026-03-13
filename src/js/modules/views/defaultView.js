@@ -7,6 +7,7 @@ class DefaultView extends View {
 
   constructor() {
     super(DefaultView.HTML, {
+      postWrite: DefaultView.applyArrow,
       a: DefaultView.requestParameterForView,
       up: DefaultView.menuUp,
       down: DefaultView.menuDown,
@@ -45,12 +46,12 @@ class DefaultView extends View {
   }
 
   static applyArrow() {
-    document.querySelector(".activeMenuItem").removeAttribute("class");
+    document.querySelector(".activeMenuItem")?.removeAttribute("class");
     document
       .querySelector(
         `#defaultView li:nth-of-type(${DefaultView.selectedMenuItem})`,
       )
-      .setAttribute("class", "activeMenuItem");
+      ?.setAttribute("class", "activeMenuItem");
   }
 
   static HTML() {
@@ -66,7 +67,6 @@ class DefaultView extends View {
       if (thisApp.views.includes(view)) {
         const el = g.newElement("li", view);
         el.setAttribute("data-location", view);
-        if (view === "defaultView") el.setAttribute("class", "activeMenuItem");
 
         list.appendChild(el);
       }

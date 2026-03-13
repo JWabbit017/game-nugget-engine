@@ -31,7 +31,7 @@ export default class View {
       misc: null,
     },
   ) {
-    this.construct = construct ?? this?.construct;
+    this.construct = construct ?? this?.HTML;
 
     if (events) {
       this.events.preWrite = events?.preWrite ?? this?.preWrite;
