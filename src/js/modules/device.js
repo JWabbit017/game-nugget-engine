@@ -2,7 +2,7 @@ import Display from "./display.js";
 import DebugHandler from "./debugHandler.js";
 
 export default class Device {
-  views = ["defaultView", "error", "info"];
+  views = ["reloadViews", "defaultView", "error", "info"];
   display;
   debugHandler;
   config = {
@@ -43,5 +43,16 @@ export default class Device {
   mountApp(appInstance) {
     this.app = appInstance;
     this.preloadView = this.app?.preloadView ?? "defaultView";
+  }
+
+  error(errorOrigin, errorMessage) {
+    try {
+      if (!this?.display) throw "GNE initialisation error";
+
+      this.display.postView("error", [errorOrigin, errorMessage]);
+    } catch (err) {
+      console.error(err);
+      return;
+    }
   }
 }

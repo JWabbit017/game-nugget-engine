@@ -27,7 +27,7 @@ export default class ListView {
   }
 
   static applyArrow() {
-    document.querySelector(".activeMenuItem").removeAttribute("class");
+    document.querySelector(".activeMenuItem")?.removeAttribute("class");
     document
       .querySelector(`#top-panel li:nth-of-type(${selectedMenuItem})`)
       .setAttribute("class", "activeMenuItem");
