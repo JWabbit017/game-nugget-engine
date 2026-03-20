@@ -55,6 +55,7 @@ export default class Display {
 
     if (typeof this.currentView === "string") {
       this.element.innerHTML = this.currentView;
+      this.currentView = this.element.children[0];
     } else if (typeof this.currentView === "object") {
       this.element.appendChild(this.currentView);
     }
@@ -147,7 +148,7 @@ export default class Display {
       if (viewName !== "error") {
         this.postView("error", ["FATAL", err]);
       } else {
-        this.currentImport.construct.remove();
+        this.element?.children[0].remove();
       }
       thisApp.debugHandler.createDebug("FATAL", true);
       console.error(err);
