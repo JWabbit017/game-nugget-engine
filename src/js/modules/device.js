@@ -2,7 +2,7 @@ import Display from "./display.js";
 import DebugHandler from "./debugHandler.js";
 
 export default class Device {
-  views = ["reloadViews", "defaultView", "error", "info"];
+  views = ["reloadViews", "error", "info", "dialouge"];
   display;
   debugHandler;
   config = {

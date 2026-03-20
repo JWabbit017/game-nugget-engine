@@ -1,0 +1,23 @@
+#dialouge {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  footer {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    gap: 10px;
+
+    div {
+      border: 2px solid black;
+      padding: 10px;
+      flex: 1;
+
+      &.activeMenuItem {
+        border: 2px dashed black;
+      }
+    }
+  }
+}
