@@ -99,7 +99,7 @@ export default class View {
 
     if (this.events.misc)
       document.addEventListener("keydown", (event) => {
-        this.miscEvents(event);
+        this.events.misc(event);
       });
   }
 
@@ -112,7 +112,7 @@ export default class View {
     View.appControls.down.removeEventListener("click", this.events.down);
 
     document.removeEventListener("keydown", (event) => {
-      this.miscEvents(event);
+      this.events.misc(event);
     });
   }
 }

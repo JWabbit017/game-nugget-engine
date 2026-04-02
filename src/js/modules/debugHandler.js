@@ -1,5 +1,6 @@
 import thisApp from "../init.js";
 import g from "./generic.js";
+import Logger from "./logging.js";
 
 export default class DebugHandler {
   loc;
@@ -8,7 +9,11 @@ export default class DebugHandler {
     this.loc = place;
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "t" && document.querySelector("#debug") === null) {
+      if (
+        event.key === "t" &&
+        document.querySelector("#debug") === null &&
+        thisApp.display.currentView.id !== "terminal"
+      ) {
         this.#createCommandInterface();
       }
     });
@@ -26,6 +31,7 @@ export default class DebugHandler {
   createDebug(text, queue = false) {
     if (thisApp.config.debugOutput) {
       if (this.debugPresent() && queue) {
+        thisApp.logger.log(`Debug: ${text}`);
         const pingForDebug = setInterval(() => {
           if (!this.debugPresent()) {
             this.#postDebug(text);
@@ -94,6 +100,8 @@ export default class DebugHandler {
         const commandName = results[1];
         const commandValue = results[2];
         const commandParameter = results[3];
+
+        thisApp.logger.log("Inline Terminal executed: " + goto);
 
         if (
           thisApp.config.commandsEnabled === "false" &&

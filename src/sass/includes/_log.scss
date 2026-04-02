@@ -1,0 +1,21 @@
+#log {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(26, 26, 27);
+  color: limegreen;
+  font-family: monospace;
+  border: none;
+  z-index: -5;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  justify-content: flex-start;
+  overflow-y: scroll;
+  scrollbar-width: none;
+
+  span {
+    font-size: 0.6em;
+    font-family: monospace;
+  }
+}

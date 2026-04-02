@@ -114,6 +114,7 @@ export default class Display {
       // If the previous view had events, remove them
       if (this.currentImport?.removeEvents) {
         this.currentImport.removeEvents();
+        thisApp.logger.log(`Unbound events for view ${this.currentView.id}`);
       }
 
       const isInternalView = thisApp.views.includes(viewName);
@@ -122,13 +123,17 @@ export default class Display {
       if (isInternalView) {
         this.currentImport = await this.#getInternalView(viewName, param);
         thisApp.activeView = this.currentImport;
+        thisApp.logger.log(`Using internal view protocol`);
       } else {
         this.currentImport = await this.#getView(viewName, param);
+        thisApp.logger.log(`Using app view protocol`);
       }
 
       const element = await this.currentImport.build();
 
       if (!element) throw "View build failed";
+
+      thisApp.logger.log(`Successfully built view ${viewName}`);
 
       if (this.currentImport?.options?.requiresParameter) {
         if (!param)
@@ -138,12 +143,15 @@ export default class Display {
       // --Like this
       this.#write(element);
       this.currentImport.appendEvents();
+      thisApp.logger.log(`Appended events for view ${viewName}`);
 
       if (this.currentImport.events?.postWrite) {
         this.currentImport.events.postWrite();
+        thisApp.logger.log(`Executed postWrite for view ${viewName}`);
       }
 
       thisApp.debugHandler.createDebug("posted " + viewName, true);
+      thisApp.logger.log("Posted view: " + viewName);
     } catch (err) {
       if (viewName !== "error") {
         this.postView("error", ["FATAL", err]);

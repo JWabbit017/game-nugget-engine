@@ -1,10 +1,20 @@
 import Display from "./display.js";
 import DebugHandler from "./debugHandler.js";
+import Logger from "./logging.js";
 
 export default class Device {
-  views = ["reloadViews", "error", "info", "dialouge"];
+  views = [
+    "reloadViews",
+    "error",
+    "info",
+    "dialouge",
+    "defaultView",
+    "terminal",
+    "log",
+  ];
   display;
   debugHandler;
+  logger;
   config = {
     commandsEnabled: localStorage.getItem("gameNugcommandsEnabled") === "true",
     debugOutput: localStorage.getItem("gameNugdebugOutput") === "true",
@@ -17,6 +27,7 @@ export default class Device {
    * @param {DebugHandler} debugHandler
    */
   constructor(display, debugHandler) {
+    this.logger = new Logger();
     this.display = display;
     this.debugHandler = debugHandler;
   }
@@ -31,9 +42,33 @@ export default class Device {
         throw "One or more subsystems are undefined";
 
       this.display.preload(this.preloadView);
+      this.bindTerminalButton();
+      this.bindLogButton();
+
+      this.logger.log("GNE initialised successfully");
     } catch (err) {
       console.error(err);
     }
+  }
+
+  bindTerminalButton() {
+    document.querySelector("#toggle-gns")?.addEventListener("click", () => {
+      if (this.display.currentView.id !== "terminal") {
+        this.display.postView("terminal");
+      } else {
+        this.display.postView(this.display.currentImport?.previous);
+      }
+    });
+  }
+
+  bindLogButton() {
+    document.querySelector("#toggle-log")?.addEventListener("click", () => {
+      if (this.display.currentView.id !== "log") {
+        this.display.postView("log");
+      } else {
+        this.display.postView(this.display.currentImport?.previous);
+      }
+    });
   }
 
   /**
@@ -50,6 +85,7 @@ export default class Device {
       if (!this?.display) throw "GNE initialisation error";
 
       this.display.postView("error", [errorOrigin, errorMessage]);
+      this.logger.log(`ERROR: ${errorMessage} in ${errorOrigin}`);
     } catch (err) {
       console.error(err);
       return;
