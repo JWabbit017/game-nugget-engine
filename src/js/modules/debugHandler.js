@@ -1,5 +1,6 @@
 import thisApp from "../init.js";
 import g from "./generic.js";
+import Logger from "./logging.js";
 
 export default class DebugHandler {
   loc;
@@ -8,7 +9,11 @@ export default class DebugHandler {
     this.loc = place;
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "t" && document.querySelector("#debug") === null) {
+      if (
+        event.key === "t" &&
+        document.querySelector("#debug") === null &&
+        thisApp.display.currentView.id !== "terminal"
+      ) {
         this.#createCommandInterface();
       }
     });
@@ -24,7 +29,9 @@ export default class DebugHandler {
    * @param {boolean} queue If this message is to be queued behind other debugs currently on page. Defaults to false.
    */
   createDebug(text, queue = false) {
-    if (thisApp.config.debugOutput) {
+    thisApp.logger.log(`----DEBUG: ${text}`);
+
+    if (thisApp.optionEnabled("debugOutput")) {
       if (this.debugPresent() && queue) {
         const pingForDebug = setInterval(() => {
           if (!this.debugPresent()) {
@@ -95,8 +102,10 @@ export default class DebugHandler {
         const commandValue = results[2];
         const commandParameter = results[3];
 
+        thisApp.logger.log("Inline Terminal executed: " + goto);
+
         if (
-          thisApp.config.commandsEnabled === "false" &&
+          !thisApp.optionEnabled("commandsEnabled") &&
           commandName !== "config"
         ) {
           return;
@@ -156,8 +165,7 @@ export default class DebugHandler {
   }
 
   #config(commandValue, commandParameter) {
-    localStorage.setItem("gameNug" + commandValue, commandParameter);
-    thisApp.config[commandValue] = commandParameter;
+    thisApp.setOption(commandValue, commandParameter);
     this.createDebug("set " + commandValue + " to " + commandParameter);
   }
 }

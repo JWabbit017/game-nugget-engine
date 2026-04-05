@@ -59,7 +59,7 @@ class DefaultView extends View {
     menu.setAttribute("id", "defaultView");
     menu.setAttribute("class", "display-filter");
 
-    const title = g.newElement("h2", "GNE v0.5.0");
+    const title = g.newElement("h2", "GNE v0.6.2");
 
     const list = g.newElement("ul");
 

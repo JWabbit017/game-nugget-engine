@@ -1,0 +1,42 @@
+#terminal {
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgb(26, 26, 27);
+  color: lightsteelblue;
+  font-family: monospace;
+  border: none;
+  z-index: -5;
+
+  textarea,
+  pre {
+    background-color: rgb(26, 26, 27);
+    border: none;
+    font-family: monospace;
+    font-size: 0.6em;
+    width: 90%;
+    overflow-y: scroll;
+    scrollbar-width: none;
+  }
+
+  textarea {
+    height: 20%;
+    outline: none;
+    resize: none;
+    color: limegreen;
+  }
+
+  pre {
+    height: 75%;
+    width: 90%;
+    max-width: 90%;
+    text-wrap-mode: wrap;
+    margin: 0 auto;
+    color: white;
+    font-size: 0.5em;
+  }
+
+  .error {
+    color: rgb(223, 59, 59);
+  }
+}
