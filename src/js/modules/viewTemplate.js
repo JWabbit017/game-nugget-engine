@@ -1,3 +1,4 @@
+import GameNugget from "../init.js";
 import thisApp from "../init.js";
 import g from "./generic.js";
 
@@ -12,7 +13,13 @@ export default class View {
     misc: null,
   };
 
+  /**
+   * @summary If a function expression is provided instead of an element, it's stored in this variable until this.build() calls it and puts the HTML in this.element
+   */
   construct = null;
+  /**
+   * @summary The HTML Node in use by this View
+   */
   element = null;
 
   static app = thisApp;
@@ -114,5 +121,21 @@ export default class View {
     document.removeEventListener("keydown", (event) => {
       this.events.misc(event);
     });
+  }
+
+  deconstruct() {
+    this.removeEvents();
+
+    const nodeRemove = this.element?.remove;
+
+    if (nodeRemove) this.element.remove();
+    else
+      document
+        .querySelector(`#${GameNugget.display?.activeViewName}`)
+        ?.remove();
+
+    GameNugget.logger.log(
+      `View '${GameNugget.display?.activeViewName ?? ""}' deconstructed`,
+    );
   }
 }

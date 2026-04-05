@@ -8,4 +8,8 @@ export default class Logger {
   log(message) {
     this.logs.push([new Date().toLocaleTimeString("nl-NL"), message]);
   }
+
+  clear() {
+    this.logs = [];
+  }
 }

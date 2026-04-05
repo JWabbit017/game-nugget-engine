@@ -1,3 +1,7 @@
+*[data-inactive="true"] {
+  display: none;
+}
+
 #top-panel,
 #bottom-panel {
   background-color: rgb(168, 167, 167);

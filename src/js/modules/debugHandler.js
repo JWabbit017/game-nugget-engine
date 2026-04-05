@@ -29,9 +29,10 @@ export default class DebugHandler {
    * @param {boolean} queue If this message is to be queued behind other debugs currently on page. Defaults to false.
    */
   createDebug(text, queue = false) {
-    if (thisApp.config.debugOutput) {
+    thisApp.logger.log(`----DEBUG: ${text}`);
+
+    if (thisApp.optionEnabled("debugOutput")) {
       if (this.debugPresent() && queue) {
-        thisApp.logger.log(`Debug: ${text}`);
         const pingForDebug = setInterval(() => {
           if (!this.debugPresent()) {
             this.#postDebug(text);
@@ -104,7 +105,7 @@ export default class DebugHandler {
         thisApp.logger.log("Inline Terminal executed: " + goto);
 
         if (
-          thisApp.config.commandsEnabled === "false" &&
+          !thisApp.optionEnabled("commandsEnabled") &&
           commandName !== "config"
         ) {
           return;
@@ -164,8 +165,7 @@ export default class DebugHandler {
   }
 
   #config(commandValue, commandParameter) {
-    localStorage.setItem("gameNug" + commandValue, commandParameter);
-    thisApp.config[commandValue] = commandParameter;
+    thisApp.setOption(commandValue, commandParameter);
     this.createDebug("set " + commandValue + " to " + commandParameter);
   }
 }

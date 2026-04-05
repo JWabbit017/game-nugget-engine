@@ -17,5 +17,13 @@
   span {
     font-size: 0.6em;
     font-family: monospace;
+
+    &.debug {
+      color: rgb(84, 102, 202);
+    }
+
+    &.config {
+      color: rgb(197, 236, 23);
+    }
   }
 }

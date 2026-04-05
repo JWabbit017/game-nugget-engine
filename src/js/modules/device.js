@@ -15,10 +15,7 @@ export default class Device {
   display;
   debugHandler;
   logger;
-  config = {
-    commandsEnabled: localStorage.getItem("gameNugcommandsEnabled") === "true",
-    debugOutput: localStorage.getItem("gameNugdebugOutput") === "true",
-  };
+  config = JSON.parse(localStorage.getItem("GNEConfig") ?? "{}");
   preloadView = "defaultView";
   viewDir = "./views";
 
@@ -42,8 +39,8 @@ export default class Device {
         throw "One or more subsystems are undefined";
 
       this.display.preload(this.preloadView);
-      this.bindTerminalButton();
-      this.bindLogButton();
+      this.#bindTerminalButton();
+      this.#bindLogButton();
 
       this.logger.log("GNE initialised successfully");
     } catch (err) {
@@ -51,7 +48,31 @@ export default class Device {
     }
   }
 
-  bindTerminalButton() {
+  /**
+   * @summary For options with a boolean values
+   * @returns {boolean} true if option value EQUALS "true", else false.
+   */
+  optionEnabled(option) {
+    if (this.config[option]) {
+      return this.config[option] === "true";
+    }
+    this.logger.log(`Attempted to access unset config option '${option}'`);
+    return false;
+  }
+
+  setOption(option, value = "") {
+    this.config[option] = value;
+    this.#refreshConfig();
+
+    this.logger.log(`----CONFIG: option ${option} set to ${value}`);
+  }
+
+  #refreshConfig() {
+    localStorage.setItem("GNEConfig", JSON.stringify(this.config));
+    this.config = JSON.parse(localStorage.getItem("GNEConfig"));
+  }
+
+  #bindTerminalButton() {
     document.querySelector("#toggle-gns")?.addEventListener("click", () => {
       if (this.display.currentView.id !== "terminal") {
         this.display.postView("terminal");
@@ -61,7 +82,7 @@ export default class Device {
     });
   }
 
-  bindLogButton() {
+  #bindLogButton() {
     document.querySelector("#toggle-log")?.addEventListener("click", () => {
       if (this.display.currentView.id !== "log") {
         this.display.postView("log");
