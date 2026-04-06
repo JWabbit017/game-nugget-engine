@@ -1,4 +1,5 @@
 import thisApp from "../../init.js";
+import g from "../generic.js";
 import View from "../viewTemplate.js";
 
 class ErrorView extends View {
@@ -23,12 +24,17 @@ class ErrorView extends View {
   }
 
   static HTML(err) {
-    return `
-      <div id="error">
-        <h2>${err[0] ?? "UNKNOWN"} => ${err[1] ?? "Something went wrong and the creator of this view didn't quite expect that"}</h2>
-        <p>Press B to reset the device.</p>
-      </div>
-    `;
+    const error = g.newElement("div");
+    error.setAttribute("id", "error");
+
+    const errText = g.newElement("h2", `${err[0] ?? "ERROR"}: ${err[1] ?? ""}`);
+
+    const help = g.newElement("p", "Press B to reset the device.");
+
+    error.appendChild(errText);
+    error.appendChild(help);
+
+    return error;
   }
 }
 

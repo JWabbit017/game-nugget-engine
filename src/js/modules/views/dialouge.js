@@ -23,10 +23,10 @@ class Dialouge extends View {
       q: "Default",
       options: {
         Yes: () => {
-          thisApp.display.postView("info", "dialouge accepted");
+          thisApp.display.postView("error", ["Dialouge", "dialouge accepted"]);
         },
         No: () => {
-          thisApp.display.postView("info", "dialouge rejected");
+          thisApp.display.postView("error", ["Dialouge", "dialouge rejected"]);
         },
       },
     };

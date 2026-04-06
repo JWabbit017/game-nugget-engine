@@ -50,7 +50,7 @@ export default class Display {
    */
   #appendView() {
     if (this.element.children[0]) {
-      this.element.children[0].remove();
+      this.element.children[0]?.remove();
     }
 
     if (typeof this.currentView === "string") {

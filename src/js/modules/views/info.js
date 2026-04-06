@@ -1,4 +1,6 @@
 import thisApp from "../../init.js";
+import * as DHTML from "../dhtml.js";
+import g from "../generic.js";
 import View from "../viewTemplate.js";
 
 class Info extends View {
@@ -15,11 +17,14 @@ class Info extends View {
   }
 
   static HTML(text) {
-    return `
-      <div id="info">
-        <h2>${text}</h2>
-      </div>
-    `;
+    const info = g.newElement("div");
+    info.setAttribute("id", "info");
+
+    const infoText = g.newElement("h2", text);
+
+    info.appendChild(infoText);
+
+    return info;
   }
 }
 

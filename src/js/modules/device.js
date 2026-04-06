@@ -11,6 +11,7 @@ export default class Device {
     "defaultView",
     "terminal",
     "log",
+    "test",
   ];
   display;
   debugHandler;
