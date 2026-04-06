@@ -1,7 +1,6 @@
 import GameNugget from "../../init.js";
 import g from "../generic.js";
 import View from "../viewTemplate.js";
-import { onEvent } from "../functions.js";
 
 class Log extends View {
   previous;
@@ -37,6 +36,7 @@ class Log extends View {
 
       if (!Log.filter) GameNugget.display.currentView.appendChild(entryLine);
     }
+    GameNugget.logger.logs.reverse();
   }
 
   static aEvent() {

@@ -2,6 +2,7 @@ import GameNugget from "../js/init.js";
 import * as GNE from "../index.js";
 import pkg from "../../package.json" with { type: "json" };
 
+// This is abhorrent code but I don't give a shit anymore
 export default class GNS {
   static wd;
 
@@ -103,6 +104,7 @@ Common commands:
 - info: device/library info
 - access {input}: print the value of a property {input} of the working class 
 - goto {input}: post view {input} of directory Device.viewDir
+- exec {input}: call method {input} of working class
 
 Keywords:
 - instance: setting this as your working class enables you to act on the runtime Game Nugget

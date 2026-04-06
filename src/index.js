@@ -5,5 +5,6 @@ import View from "./js/modules/viewTemplate.js";
 import Device from "./js/modules/device.js";
 import g from "./js/modules/generic.js";
 import ListView from "./js/modules/viewPresets/listView.js";
+import * as DHTML from "./js/modules/dhtml.js";
 
-export { GameNugget, Device, Display, DebugHandler, View, ListView, g };
+export { GameNugget, Device, Display, DebugHandler, View, ListView, g, DHTML };

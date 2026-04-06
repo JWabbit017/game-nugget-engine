@@ -1,4 +1,4 @@
 node_modules
 devkey
-.gne
+*.gne
 src/gns/devkey.gne
