@@ -107,7 +107,7 @@ export default class Device {
       if (!this?.display) throw "GNE initialisation error";
 
       this.display.postView("error", [errorOrigin, errorMessage]);
-      this.logger.log(`ERROR: ${errorMessage} in ${errorOrigin}`);
+      this.logger.log(`----ERROR: ${errorMessage} in ${errorOrigin}`);
     } catch (err) {
       console.error(err);
       return;
