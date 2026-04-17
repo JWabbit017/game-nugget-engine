@@ -50,7 +50,7 @@ export default class Display {
    */
   #appendView() {
     if (this.element.children[0]) {
-      this.element.children[0].remove();
+      this.element.children[0]?.remove();
     }
 
     if (typeof this.currentView === "string") {
@@ -111,24 +111,28 @@ export default class Display {
    */
   async postView(viewName, param = null) {
     try {
-      // If the previous view had events, remove them
-      if (this.currentImport?.removeEvents) {
-        this.currentImport.removeEvents();
-      }
+      this.activeViewName = viewName;
+      this.viewParam = param;
+
+      this?.currentImport?.deconstruct();
 
       const isInternalView = thisApp.views.includes(viewName);
 
       // We save the current view in a class-scope property so we can handle the corresponding events seperately from any other views that may be being processed --
       if (isInternalView) {
         this.currentImport = await this.#getInternalView(viewName, param);
-        thisApp.activeView = this.currentImport;
+        thisApp.logger.log(`Using internal view protocol`);
       } else {
         this.currentImport = await this.#getView(viewName, param);
+        thisApp.logger.log(`Using app view protocol`);
       }
 
       const element = await this.currentImport.build();
 
-      if (!element) throw "View build failed";
+      if (!element)
+        throw "View build failed - check if your View's HTML method returns an element";
+
+      thisApp.logger.log(`Successfully built view '${viewName}'`);
 
       if (this.currentImport?.options?.requiresParameter) {
         if (!param)
@@ -138,12 +142,15 @@ export default class Display {
       // --Like this
       this.#write(element);
       this.currentImport.appendEvents();
+      thisApp.logger.log(`Appended events for view '${viewName}'`);
 
       if (this.currentImport.events?.postWrite) {
         this.currentImport.events.postWrite();
+        thisApp.logger.log(`Executed postWrite for view '${viewName}'`);
       }
 
       thisApp.debugHandler.createDebug("posted " + viewName, true);
+      thisApp.logger.log("Posted view: '" + viewName + "'");
     } catch (err) {
       if (viewName !== "error") {
         this.postView("error", ["FATAL", err]);
@@ -176,6 +183,14 @@ export default class Display {
     return typeof imp?.default === "function"
       ? imp.default(param)
       : imp?.default;
+  }
+
+  /**
+   * @summary Re-posts the current View with its passed parameter
+   */
+  refresh() {
+    if (this?.activeViewName)
+      this.postView(this.activeViewName, this?.viewParam ?? null);
   }
 
   #bindControls(controls = { up, down, a, b }) {

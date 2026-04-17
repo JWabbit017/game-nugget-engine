@@ -55,11 +55,11 @@ class DefaultView extends View {
   }
 
   static HTML() {
-    const menu = g.newElement("nav");
+    const menu = g.newElement("div");
     menu.setAttribute("id", "defaultView");
     menu.setAttribute("class", "display-filter");
 
-    const title = g.newElement("h2", "GNE v0.4.1-LTS");
+    const title = g.newElement("h2", "GNE v0.6.3");
 
     const list = g.newElement("ul");
 

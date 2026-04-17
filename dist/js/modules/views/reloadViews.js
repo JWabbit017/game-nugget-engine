@@ -4,11 +4,13 @@ import g from "../generic.js";
 import defaultView from "./defaultView.js";
 import error from "./error.js";
 import info from "./info.js";
+import terminal from "./terminal.js";
+import log from "./log.js";
 
 class ReloadViews extends View {
   constructor() {
     // Doing this forces the browser to actually get the files fresh which updates the cache
-    const a = [defaultView, error, info];
+    const a = [defaultView, error, info, terminal, log];
 
     console.log(a);
 
