@@ -19,6 +19,12 @@
     scrollbar-width: none;
   }
 
+  h2,
+  h3,
+  h4 {
+    display: inline;
+  }
+
   &[data-php="true"] {
     &,
     textarea {

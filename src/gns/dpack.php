@@ -48,6 +48,7 @@ class DPack
     $data = json_decode($input, true);
 
     if (!isset($data['v']) || !isset($data['path'])) static::exitBadInput();
+    if ($data['v'] === '' || $data['path'] === '') static::exitBadInput();
 
     return $data;
   }
