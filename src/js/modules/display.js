@@ -120,10 +120,10 @@ export default class Display {
 
       // We save the current view in a class-scope property so we can handle the corresponding events seperately from any other views that may be being processed --
       if (isInternalView) {
-        this.currentImport = await this.#getInternalView(viewName, param);
+        this.currentImport = await this.getInternalView(viewName, param);
         thisApp.logger.log(`Using internal view protocol`);
       } else {
-        this.currentImport = await this.#getView(viewName, param);
+        this.currentImport = await this.getView(viewName, param);
         thisApp.logger.log(`Using app view protocol`);
       }
 
@@ -165,13 +165,13 @@ export default class Display {
 
   // I had to split these up the stupid way because import() does not accept any expression as parameter
   // But somehow a template literal is fine
-  async #getView(viewName, param = null) {
+  async getView(viewName, param = null) {
     const imp = await import(`${thisApp.viewDir}/${viewName}.js`);
 
     return this.#processView(imp, param);
   }
 
-  async #getInternalView(viewName, param = null) {
+  async getInternalView(viewName, param = null) {
     const imp = await import(`./views/${viewName}.js`);
 
     return this.#processView(imp, param);

@@ -1,6 +1,7 @@
 import GameNugget from "../js/init.js";
 import * as GNE from "../index.js";
 import pkg from "../../package.json" with { type: "json" };
+import { Terminal } from "../js/modules/views/terminal.js";
 
 // This is abhorrent code but I don't give a shit anymore
 export default class GNS {
@@ -75,10 +76,41 @@ options: ${options ?? "none"};`;
     GNS.updateDir();
   }
 
+  static pp(dir) {
+    let list = new String("Properties of " + dir + ": \n");
+
+    for (const property in GNS.wd) {
+      list += `----PROPERTY [${property}]: ${typeof GNS.wd[property]}\n`;
+    }
+
+    return list;
+  }
+
+  static pm(dir) {
+    let list = new String("Methods of " + dir + ": \n");
+
+    for (const method of Object.getOwnPropertyNames(
+      Object.getPrototypeOf(GNS.wd),
+    )) {
+      list += `----METHOD [${method}]: ${typeof GNS.wd[method]} \n`;
+    }
+
+    return list;
+  }
+
+  static pd(dir) {
+    return GNS.pp(dir) + "\n" + GNS.pm(dir);
+  }
+
   static updateDir() {
     GNS.findWorkingClass(GameNugget.display.currentImport.wd);
     GameNugget.display.currentImport.clearInput();
     return "";
+  }
+
+  static pile() {
+    Terminal.pile = true;
+    return "Output piling enabled";
   }
 
   static v() {

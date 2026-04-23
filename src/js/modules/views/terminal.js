@@ -3,12 +3,13 @@ import View from "../viewTemplate.js";
 import g from "../generic.js";
 import GameNugget from "../../init.js";
 
-class Terminal extends View {
+export class Terminal extends View {
   commands = [];
   wd = "instance";
   static input;
   static output;
   static previous = "defaultView";
+  static pile = false;
 
   constructor() {
     super(Terminal.HTML());
@@ -36,7 +37,13 @@ class Terminal extends View {
     } catch (err) {
       output = "<span class='error'>ERROR: " + err + "</span>";
     } finally {
-      if (output) Terminal.output.innerHTML = output;
+      if (output)
+        Terminal.pile
+          ? (Terminal.output.innerHTML +=
+              `\n\n<span class="terminalInput">${Terminal.input.value}</span>\n\n` +
+              output)
+          : (Terminal.output.innerHTML = output);
+      this.clearInput();
     }
   };
 
@@ -70,7 +77,6 @@ class Terminal extends View {
   enterCommand = async (value = "") => {
     this.commands.push(value);
     GameNugget.logger.log("GNS Terminal executed: " + value);
-    this.clearInput();
 
     const [dir, target, param, options] = this.evalCommand(value);
 
