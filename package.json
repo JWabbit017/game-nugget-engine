@@ -1,6 +1,6 @@
 {
   "name": "game-nugget-engine",
-  "version": "0.7.0",
+  "version": "7.0.0",
   "description": "The Game Nugget retro web app platform",
   "homepage": "https://github.com/JWabbit017/game-nugget-engine#readme",
   "bugs": {
@@ -17,6 +17,5 @@
   "scripts": {
     "sassDist": "sass src/sass/style.scss dist/game-nugget.css --style=compressed",
     "sassDev": "sass src/sass/styleDev.scss src/css/game-nugget.css --style=compressed"
-  },
-  "devDependencies": {}
+  }
 }

@@ -59,7 +59,7 @@ export default class DebugHandler {
   }
 
   debugPrompt(responseFunc) {
-    this.#createCommandInterface(true, responseFunc);
+    if (!this.debugPresent()) this.#createCommandInterface(true, responseFunc);
   }
 
   #createCommandInterface(prompted = false, responseFunc = null) {
