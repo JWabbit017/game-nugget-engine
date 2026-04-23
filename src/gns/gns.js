@@ -175,18 +175,23 @@ options: ${JSON.stringify(options) ?? "none"};`;
 
       return await response.text();
     } else {
-      throw "You must be a superuse to execute PHP";
+      throw "You must be a superuser to execute PHP";
     }
   }
 
   static async dpack(dir, target, param, options, force) {
     if (force) {
+      Terminal.output.innerHTML +=
+        '<br><span class="warn">[ DPack v0.1.2 by JM ]</span><br>';
+
       const response = await fetch("./src/gns/dpack.php", {
         method: "POST",
         body: JSON.stringify({ v: param, path: Object.values(options)[0] }),
       });
 
       return await response.text();
+    } else {
+      throw "You must be a superuser to execute PHP";
     }
   }
 

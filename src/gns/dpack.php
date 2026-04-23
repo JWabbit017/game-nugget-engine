@@ -11,27 +11,32 @@ class DPack
 
   public static function dpack()
   {
-    echo 'Validating input...\n';
+    echo 'Validating input...';
     $data = static::validateInput();
+      echo '<span class="success">done!</span><br>';
 
     $v = $data['v'];
     $path = $data['path'];
     
-    echo 'Updating package.json...\n';
+    echo 'Updating package.json...';
     $GNEpath = static::incrementPackageJson($v, $path);
+      echo '<span class="success">done!</span><br>';
 
-    echo 'Copying JS source to dist...\n';
-    static::copyJS($_SERVER['DOCUMENT_ROOT'] . '/' . $path . '/' + $GNEpath);
+    echo 'Copying JS source to dist...';
+    static::copyJS($_SERVER['DOCUMENT_ROOT'] . '/' . $path . '/' . $GNEpath);
+    echo '<span class="success">done!</span><br>';
 
-    echo 'Copying GNS source to dist...\n';
-    static::copyGNS($_SERVER['DOCUMENT_ROOT'] . '/' . $path . '/' + $GNEpath);
+    echo 'Copying GNS source to dist...';
+    static::copyGNS($_SERVER['DOCUMENT_ROOT'] . '/' . $path . '/' . $GNEpath);
+      echo '<span class="success">done!</span><br>';
 
-    echo 'Compiling Sass to dist...\n';
+    echo 'Compiling Sass to dist...';
     $sass = shell_exec('npm run sassDist');
+    echo '<span class="success">done!</span><br>';
 
     if (!($sass ?? false)) static::exitBadInput('DPack was unable to run sass compiler');
 
-    return "Version $v packed successfully";
+    return "<br>Version $v packed successfully";
   }
 
   private static function validateInput()
