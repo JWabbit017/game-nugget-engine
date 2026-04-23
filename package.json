@@ -1,6 +1,6 @@
 {
   "name": "game-nugget-engine",
-  "version": "0.6.3",
+  "version": "0.7.0",
   "description": "The Game Nugget retro web app platform",
   "homepage": "https://github.com/JWabbit017/game-nugget-engine#readme",
   "bugs": {
@@ -13,10 +13,10 @@
   "license": "MIT",
   "author": "JM Janszen",
   "main": "dist/index.js",
+  "gneDirectory": "",
   "scripts": {
     "sassDist": "sass src/sass/style.scss dist/game-nugget.css --style=compressed",
     "sassDev": "sass src/sass/styleDev.scss src/css/game-nugget.css --style=compressed"
   },
-  "devDependencies": {},
-  "caution": "Currently there if no automatic build step, as webpack has proved unsuitable for this project. We are working on this, thank you for your patience."
+  "devDependencies": {}
 }

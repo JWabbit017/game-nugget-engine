@@ -12,7 +12,7 @@ export default class GNS {
 dir: ${dir}; 
 target: ${target ?? "none"};
 param: ${param ?? "none"}; 
-options: ${options ?? "none"};`;
+options: ${JSON.stringify(options) ?? "none"};`;
   }
 
   static findWorkingClass(dir) {
@@ -34,14 +34,39 @@ options: ${options ?? "none"};`;
     }
   }
 
+  static config(dir, target, param, options, force = false) {
+    const optionName = Object.keys(options)[0] ?? null;
+    const optionValue = Object.values(options)[0] ?? null;
+
+    switch (param) {
+      case "set":
+        if (optionName && (GameNugget.config[optionName] || force)) {
+          GameNugget.setOption(optionName, optionValue);
+          return `Set option ${optionName} to value ${optionValue}`;
+        } else {
+          throw `Option ${optionName} does not exist; if you want to create a new option you must be a superuser`;
+        }
+      case "get":
+        if (GameNugget.config[optionName]) {
+          return optionName + ": " + GameNugget.config[optionName];
+        } else {
+          throw `Option ${optionName} does not exist`;
+        }
+      default:
+        throw `${param} is not a valid config operation`;
+    }
+  }
+
   static goto(dir, target, param, options) {
-    GameNugget.display.postView(param, options ?? null);
+    GameNugget.display.postView(
+      param,
+      options?.view ?? Object.values(options)[0] ?? null,
+    );
   }
 
   static set(dir, target, param, options) {
-    console.log(param);
-    if (GNS.wd[param] && options) {
-      GNS.wd[param] = options;
+    if (GNS.wd[param] && (options?.value ?? Object.values(options)[0])) {
+      GNS.wd[param] = options?.value ?? Object.values(options)[0];
     } else {
       throw "Set operation failed";
     }
@@ -62,18 +87,26 @@ options: ${options ?? "none"};`;
 
   static async exec(dir, target, param, options) {
     if (typeof GNS.wd[param] === "function") {
-      return String(await GNS.wd[param](options ?? null)) ?? "void";
+      return (
+        String(
+          await GNS.wd[param](
+            options?.method ?? Object.values(options)[0] ?? null,
+          ),
+        ) ?? "void"
+      );
     } else throw `${param} is not a function in this working space`;
   }
 
   static d(dir, target, param, options) {
     GameNugget.display.currentImport.wd = param ?? "";
     GNS.updateDir();
+    return "OK";
   }
 
   static ad(dir, target, param, options) {
     GameNugget.display.currentImport.wd += "/" + param ?? "";
     GNS.updateDir();
+    return "OK";
   }
 
   static pp(dir) {
@@ -109,12 +142,70 @@ options: ${options ?? "none"};`;
   }
 
   static pile() {
-    Terminal.pile = true;
-    return "Output piling enabled";
+    Terminal.pile = !Terminal.pile;
+    return `Output piling set to ${Terminal.pile}`;
+  }
+
+  static js(dir, target, param) {
+    return eval(param);
+  }
+
+  static async php(dir, target, param, options, force) {
+    if (force) {
+      const response = await fetch("./src/gns/php_raw.php", {
+        method: "POST",
+        body: param,
+      });
+
+      return await response.text();
+    } else {
+      throw "You must be a superuser to execute PHP";
+    }
+  }
+
+  static async sculpt(dir, target, param, options, force) {
+    if (force) {
+      const response = await fetch("./src/gns/sculpt_view.php", {
+        method: "POST",
+        body: JSON.stringify({
+          path: param,
+          name: options?.name ?? Object.values(options)[0],
+        }),
+      });
+
+      return await response.text();
+    } else {
+      throw "You must be a superuse to execute PHP";
+    }
+  }
+
+  static async dpack(dir, target, param, options, force) {
+    if (force) {
+      const response = await fetch("./src/gns/dpack.php", {
+        method: "POST",
+        body: JSON.stringify({ v: param, path: Object.values(options)[0] }),
+      });
+
+      return await response.text();
+    }
+  }
+
+  static echo(dir, target, param) {
+    return param;
   }
 
   static v() {
     return String(pkg.version);
+  }
+
+  static mode(dir, target, param, options) {
+    switch (param) {
+      case "set":
+        Terminal[Object.keys(options)[0]] = Object.values(options)[0];
+        return `Terminal mode ${Object.keys(options)[0]} set to ${Object.values(options)[0]}`;
+      default:
+        throw `${param} is not a valid mode operation`;
+    }
   }
 
   static info() {
@@ -137,6 +228,15 @@ Common commands:
 - access {input}: print the value of a property {input} of the working class 
 - goto {input}: post view {input} of directory Device.viewDir
 - exec {input}: call method {input} of working class
+- pp: print all non-method properties of working class
+- pm: print all methods of working class
+- pd: print all properties of working class
+- config {input} [superuser]: access/set GNE options
+- mode {input}: set terminal modes such as superuser
+- js {input}: execute inline js
+- php {input} [superuser]: execute inline php
+- sculpt {input} [superuser]: sculpt a new OOP view
+- pile: enable output piling
 
 Keywords:
 - instance: setting this as your working class enables you to act on the runtime Game Nugget

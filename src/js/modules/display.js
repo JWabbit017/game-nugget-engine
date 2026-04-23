@@ -48,16 +48,16 @@ export default class Display {
   /**
    * @summary In charge of inserting the view's node into the display.
    */
-  #appendView() {
-    if (this.element.children[0]) {
-      this.element.children[0]?.remove();
+  #appendView(view) {
+    if (this.currentView) {
+      this.currentView.remove();
     }
 
-    if (typeof this.currentView === "string") {
-      this.element.innerHTML = this.currentView;
+    if (typeof view === "string") {
+      this.element.innerHTML = view;
       this.currentView = this.element.children[0];
-    } else if (typeof this.currentView === "object") {
-      this.element.appendChild(this.currentView);
+    } else if (typeof view === "object") {
+      this.element.appendChild(view);
     }
   }
 
@@ -67,8 +67,8 @@ export default class Display {
    */
   #write(view) {
     try {
+      this.#appendView(view);
       this.currentView = view;
-      this.#appendView();
     } catch (err) {
       g.catchToDebug("write", err);
       return;
