@@ -19,24 +19,78 @@
     scrollbar-width: none;
   }
 
+  h2,
+  h3,
+  h4 {
+    display: inline;
+  }
+
+  &[data-php="true"] {
+    &,
+    textarea {
+      color: rgb(97, 113, 207) !important;
+    }
+  }
+
+  &[data-retro="true"] {
+    &,
+    textarea,
+    pre {
+      background-image: url(./assets/images/scanlines.png);
+      text-shadow:
+        0 0 1px #fff,
+        0 0 2px rgb(238, 127, 23) !important;
+      color: rgb(255, 118, 69) !important;
+    }
+    span {
+      color: black;
+      box-shadow:
+        0 0 1px #fff,
+        0 0 2px rgb(238, 127, 23) !important;
+    }
+    .terminalinput {
+      text-shadow:
+        0 0 1px #fff,
+        0 0 2px rgb(238, 127, 23) !important;
+      color: rgb(255, 118, 69) !important;
+    }
+  }
+
   textarea {
-    height: 20%;
+    height: 10%;
     outline: none;
     resize: none;
     color: limegreen;
   }
 
   pre {
-    height: 75%;
+    height: 85%;
     width: 90%;
     max-width: 90%;
     text-wrap-mode: wrap;
+    line-break: anywhere;
     margin: 0 auto;
     color: white;
     font-size: 0.5em;
   }
 
   .error {
-    color: rgb(223, 59, 59);
+    background-color: rgb(223, 59, 59);
+  }
+
+  .success {
+    background-color: rgb(39, 182, 39);
+  }
+
+  .info {
+    background-color: slateblue;
+  }
+
+  .warn {
+    background-color: rgb(182, 182, 36);
+  }
+
+  .terminalInput {
+    color: limegreen;
   }
 }

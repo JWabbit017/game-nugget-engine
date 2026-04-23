@@ -18,12 +18,22 @@
     font-size: 0.6em;
     font-family: monospace;
 
-    &.debug {
+    &.debug,
+    &.info {
       color: rgb(84, 102, 202);
     }
 
-    &.config {
+    &.config,
+    &.warn {
       color: rgb(197, 236, 23);
+    }
+
+    &.system {
+      color: white;
+    }
+
+    &.error {
+      color: rgb(200, 50, 50);
     }
   }
 }

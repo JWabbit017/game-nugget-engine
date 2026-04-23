@@ -14,13 +14,13 @@ export class Slot {
    * @param {Object} options { activeByDefault: boolean }
    * @returns The Slot instance created. Access the Slot element by this.element and the ID by this.id
    */
-  constructor(el, options = { activeByDefault: false }) {
+  constructor(el, options = { active: false }) {
     this.innerElement = el;
     this.id = this.newSlotID();
 
     this.element = this.slot(this.innerElement, this.id);
 
-    if (options?.activeByDefault) this.activate;
+    if (options?.active) this.activate;
 
     return this;
   }
@@ -49,10 +49,7 @@ export class Slot {
    * @summary Replaces the Slot container with its content and removes its display:none rule
    */
   activate() {
-    const slot = Slot.getSlot(this.id);
-
-    if (slot) slot.replaceWith(this.innerElement);
-    else this.element = this.innerElement;
+    this.element.replaceWith(this.innerElement);
   }
 
   newSlotID() {
@@ -96,10 +93,10 @@ export class ReactiveSlot extends Slot {
    * @param {DHTMLReactiveState} state The DHTML Reactive state to use as the Slot's content - note that the state's value must be appendable to the DOM as a string OR return an appendable string if the state is a function
    * @returns
    */
-  constructor(state) {
+  constructor(state, slotOptions = {}) {
     const element = g.newElement("div", String(state.value));
 
-    super(element);
+    super(element, slotOptions);
 
     if (!(state instanceof DHTMLReactiveState))
       throw "Reactive slots must be assigned a DHTMLReactiveState instance";
