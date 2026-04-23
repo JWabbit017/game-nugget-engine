@@ -20,8 +20,16 @@ class DPack
     echo 'Updating package.json...\n';
     $GNEpath = static::incrementPackageJson($v, $path);
 
-    echo 'Copying JS source to dist...';
+    echo 'Copying JS source to dist...\n';
     static::copyJS($_SERVER['DOCUMENT_ROOT'] . '/' . $path . '/' + $GNEpath);
+
+    echo 'Copying GNS source to dist...\n';
+    static::copyGNS($_SERVER['DOCUMENT_ROOT'] . '/' . $path . '/' + $GNEpath);
+
+    echo 'Compiling Sass to dist...\n';
+    $sass = shell_exec('npm run sassDist');
+
+    if (!($sass ?? false)) static::exitBadInput('DPack was unable to run sass compiler');
 
     return "Version $v packed successfully";
   }
@@ -62,6 +70,14 @@ class DPack
   {
     $src = $path . '/src/js';
     $dist = $path . '/dist/js';
+
+    static::recurseCopy($src, $dist);
+  }
+
+  private static function copyGNS(string $path)
+  {
+    $src = $path . '/src/gns';
+    $dist = $path . '/dist/gns';
 
     static::recurseCopy($src, $dist);
   }
@@ -120,3 +136,4 @@ class DPack
 }
 
 echo DPack::dpack();
+exit(0);
