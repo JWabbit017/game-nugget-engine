@@ -8,7 +8,6 @@ export default class Device {
     "error",
     "info",
     "dialouge",
-    "defaultView",
     "terminal",
     "log",
     "test",
@@ -17,7 +16,7 @@ export default class Device {
   debugHandler;
   logger;
   config = JSON.parse(localStorage.getItem("GNEConfig") ?? "{}");
-  preloadView = "defaultView";
+  preloadView = "terminal";
   viewDir = "./views";
 
   /**
@@ -43,7 +42,7 @@ export default class Device {
       this.#bindTerminalButton();
       this.#bindLogButton();
 
-      this.logger.log("GNE initialised successfully");
+      this.logger.log("----SYSTEM: GNE initialised successfully");
     } catch (err) {
       console.error(err);
     }
@@ -57,7 +56,9 @@ export default class Device {
     if (this.config[option]) {
       return this.config[option] === "true";
     }
-    this.logger.log(`Attempted to access unset config option '${option}'`);
+    this.logger.log(
+      `----WARN: Attempted to access unset config option '${option}'`,
+    );
     return false;
   }
 
@@ -106,8 +107,8 @@ export default class Device {
     try {
       if (!this?.display) throw "GNE initialisation error";
 
-      this.display.postView("error", [errorOrigin, errorMessage]);
       this.logger.log(`----ERROR: ${errorMessage} in ${errorOrigin}`);
+      this.display.postView("error", [errorOrigin, errorMessage]);
     } catch (err) {
       console.error(err);
       return;

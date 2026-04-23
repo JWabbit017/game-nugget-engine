@@ -48,16 +48,16 @@ export default class Display {
   /**
    * @summary In charge of inserting the view's node into the display.
    */
-  #appendView() {
-    if (this.element.children[0]) {
-      this.element.children[0]?.remove();
+  #appendView(view) {
+    if (this.currentView) {
+      this.currentView.remove();
     }
 
-    if (typeof this.currentView === "string") {
-      this.element.innerHTML = this.currentView;
+    if (typeof view === "string") {
+      this.element.innerHTML = view;
       this.currentView = this.element.children[0];
-    } else if (typeof this.currentView === "object") {
-      this.element.appendChild(this.currentView);
+    } else if (typeof view === "object") {
+      this.element.appendChild(view);
     }
   }
 
@@ -67,8 +67,8 @@ export default class Display {
    */
   #write(view) {
     try {
+      this.#appendView(view);
       this.currentView = view;
-      this.#appendView();
     } catch (err) {
       g.catchToDebug("write", err);
       return;
@@ -120,10 +120,10 @@ export default class Display {
 
       // We save the current view in a class-scope property so we can handle the corresponding events seperately from any other views that may be being processed --
       if (isInternalView) {
-        this.currentImport = await this.#getInternalView(viewName, param);
+        this.currentImport = await this.getInternalView(viewName, param);
         thisApp.logger.log(`Using internal view protocol`);
       } else {
-        this.currentImport = await this.#getView(viewName, param);
+        this.currentImport = await this.getView(viewName, param);
         thisApp.logger.log(`Using app view protocol`);
       }
 
@@ -165,13 +165,13 @@ export default class Display {
 
   // I had to split these up the stupid way because import() does not accept any expression as parameter
   // But somehow a template literal is fine
-  async #getView(viewName, param = null) {
+  async getView(viewName, param = null) {
     const imp = await import(`${thisApp.viewDir}/${viewName}.js`);
 
     return this.#processView(imp, param);
   }
 
-  async #getInternalView(viewName, param = null) {
+  async getInternalView(viewName, param = null) {
     const imp = await import(`./views/${viewName}.js`);
 
     return this.#processView(imp, param);
