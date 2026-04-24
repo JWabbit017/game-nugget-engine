@@ -58,6 +58,7 @@ export default class Display {
       this.currentView = this.element.children[0];
     } else if (typeof view === "object") {
       this.element.appendChild(view);
+      this.currentView = view;
     }
   }
 
@@ -68,7 +69,6 @@ export default class Display {
   #write(view) {
     try {
       this.#appendView(view);
-      this.currentView = view;
     } catch (err) {
       g.catchToDebug("write", err);
       return;

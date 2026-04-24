@@ -11,18 +11,18 @@ class DPack
 
   public static function dpack()
   {
-    echo 'Validating input...';
+    echo 'Validating input.............';
     $data = static::validateInput();
       echo '<span class="success">done!</span><br>';
 
     $v = $data['v'];
     $path = $data['path'];
     
-    echo 'Updating package.json...';
+    echo 'Updating package.json........';
     $GNEpath = static::incrementPackageJson($v, $path);
       echo '<span class="success">done!</span><br>';
 
-    echo 'Copying JS source to dist...';
+    echo 'Copying JS source to dist....';
     static::copyJS($_SERVER['DOCUMENT_ROOT'] . '/' . $path . '/' . $GNEpath);
     echo '<span class="success">done!</span><br>';
 
@@ -30,7 +30,7 @@ class DPack
     static::copyGNS($_SERVER['DOCUMENT_ROOT'] . '/' . $path . '/' . $GNEpath);
       echo '<span class="success">done!</span><br>';
 
-    echo 'Compiling Sass to dist...';
+    echo 'Compiling Sass to dist.......';
     $sass = shell_exec('npm run sassDist');
     echo '<span class="success">done!</span><br>';
 

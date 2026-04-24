@@ -6,6 +6,7 @@ export default class View {
   events = {
     preWrite: null,
     postWrite: null,
+    onDeconstruct: null,
     a: null,
     b: null,
     up: null,
@@ -37,6 +38,7 @@ export default class View {
     events = {
       preWrite: null,
       postWrite: null,
+      onDeconstruct: null,
       a: null,
       b: null,
       up: null,
@@ -53,6 +55,7 @@ export default class View {
     events = {
       preWrite: null,
       postWrite: null,
+      onDeconstruct: null,
       a: null,
       b: null,
       up: null,
@@ -63,6 +66,7 @@ export default class View {
     if (events) {
       this.events.preWrite = events?.preWrite ?? this?.preWrite;
       this.events.postWrite = events?.postWrite ?? this?.postWrite;
+      this.events.onDeconstruct = events?.onDeconstruct ?? this?.onDeconstruct;
       this.events.a = events?.a ?? this?.aEvent;
       this.events.b = events?.b ?? this?.bEvent;
       this.events.up = events?.up ?? this?.upEvent;
@@ -125,6 +129,8 @@ export default class View {
 
   deconstruct() {
     this.removeEvents();
+
+    if (this.events.onDeconstruct) this.events.onDeconstruct();
 
     const nodeRemove = this.element?.remove;
 
