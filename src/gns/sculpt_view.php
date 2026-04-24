@@ -18,7 +18,7 @@ if (!isset($data['path']) || !isset($data['name']))
     exit(1);
 }
 
-$dirpath = $_SERVER['DOCUMENT_ROOT'].$data['path'];
+$dirpath = $_SERVER['DOCUMENT_ROOT'].'/'.$data['path'];
 
 $name = $data['name'] ?? 'default';
 

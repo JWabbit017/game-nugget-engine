@@ -66,14 +66,11 @@ export class Terminal extends View {
 
       Terminal.output.scroll(0, 9999999);
 
-      Terminal.output.innerHTML += output.match("ERROR")
+      Terminal.output.innerHTML += output?.match("ERROR")
         ? "\n\n<span class='error'>Operation finished with exit code 1</span>\n"
         : "\n\n<span class='success'>Operation finished with exit code 0</span>\n";
 
       this.clearInput();
-
-      if (Terminal.php)
-        document.querySelector("#terminal").setAttribute("data-php", "true");
     }
   };
 
