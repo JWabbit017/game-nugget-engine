@@ -48,27 +48,25 @@ export default class Display {
   /**
    * @summary In charge of inserting the view's node into the display.
    */
-  #appendView() {
-    if (this.element.children[0]) {
-      this.element.children[0].remove();
-    }
+  #appendView(view) {
+    this?.currentView?.remove();
 
-    if (typeof this.currentView === "string") {
-      this.element.innerHTML = this.currentView;
+    if (typeof view === "string") {
+      this.element.innerHTML = view;
       this.currentView = this.element.children[0];
-    } else if (typeof this.currentView === "object") {
-      this.element.appendChild(this.currentView);
+    } else if (typeof view === "object") {
+      this.element.appendChild(view);
+      this.currentView = view;
     }
   }
 
   /**
    * @summary Writes a new view to the class' internals and then appends it to the DOM.
-   * @param {object} view The view to write to the display.
+   * @param {object|string} view The view to write to the display.
    */
   #write(view) {
     try {
-      this.currentView = view;
-      this.#appendView();
+      this.#appendView(view);
     } catch (err) {
       g.catchToDebug("write", err);
       return;
@@ -148,7 +146,9 @@ export default class Display {
       if (viewName !== "error") {
         this.postView("error", ["FATAL", err]);
       } else {
-        this.element?.children[0].remove();
+        this.#write(
+          "<div id='fatal'><h2>:(</h2><p>A fatal error occurred. Sorry about that.</p></div>",
+        );
       }
       thisApp.debugHandler.createDebug("FATAL", true);
       console.error(err);

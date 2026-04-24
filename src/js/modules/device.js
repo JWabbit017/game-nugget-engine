@@ -9,8 +9,13 @@ export default class Device {
     commandsEnabled: localStorage.getItem("gameNugcommandsEnabled") === "true",
     debugOutput: localStorage.getItem("gameNugdebugOutput") === "true",
   };
+  _config = JSON.parse(localStorage.getItem("GNEConfig") ?? "{}");
   preloadView = "defaultView";
   viewDir = "./views";
+
+  get config() {
+    return this._config;
+  }
 
   /**
    * @param {Display} display
@@ -19,6 +24,8 @@ export default class Device {
   constructor(display, debugHandler) {
     this.display = display;
     this.debugHandler = debugHandler;
+
+    if (this._config === {}) this._config = this.config;
   }
 
   /**
@@ -43,6 +50,16 @@ export default class Device {
   mountApp(appInstance) {
     this.app = appInstance;
     this.preloadView = this.app?.preloadView ?? "defaultView";
+  }
+
+  config_set(option, value = "") {
+    this._config[option] = value;
+    this.#refreshConfig();
+  }
+
+  #refreshConfig() {
+    localStorage.setItem("GNEConfig", JSON.stringify(this._config));
+    this._config = JSON.parse(localStorage.getItem("GNEConfig"));
   }
 
   error(errorOrigin, errorMessage) {

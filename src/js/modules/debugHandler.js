@@ -8,14 +8,14 @@ export default class DebugHandler {
     this.loc = place;
 
     document.addEventListener("keydown", (event) => {
-      if (event.key === "t" && document.querySelector("#debug") === null) {
+      if (event.key === "t" && !this.debugPresent()) {
         this.#createCommandInterface();
       }
     });
   }
 
   debugPresent() {
-    return document.querySelector("#debug") === null ? false : true;
+    return !(document.querySelector("#debug") == null);
   }
 
   /**
@@ -52,7 +52,7 @@ export default class DebugHandler {
   }
 
   debugPrompt(responseFunc) {
-    this.#createCommandInterface(true, responseFunc);
+    if (!this.debugPresent()) this.#createCommandInterface(true, responseFunc);
   }
 
   #createCommandInterface(prompted = false, responseFunc = null) {
@@ -88,7 +88,8 @@ export default class DebugHandler {
   #debugCommands(input) {
     try {
       if (input !== "" && input !== null) {
-        const goto = input.matchAll(/^(\w+)\s(\w+)(?:\s!(\w+))?/gi) ?? null;
+        const goto =
+          input.matchAll(/^(\w+)\s(\w+)(?:\s!|(?:--)(\w+))?/gi) ?? null;
 
         const results = [...goto][0];
         const commandName = results[1];
