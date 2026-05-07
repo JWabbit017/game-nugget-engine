@@ -11,6 +11,7 @@ export class Terminal extends View {
   static previous = "terminal";
   static pile = false;
   static superuser = false;
+  static terminalActivated = false;
 
   constructor() {
     super(Terminal.HTML());
@@ -20,13 +21,21 @@ export class Terminal extends View {
     this.assignEvents({
       a: this.run,
       up: this.previousCommand,
-      misc: (event) => {
-        if (event.key === "Enter") {
-          event.preventDefault();
-          this.run();
-        }
-      },
     });
+
+    // TODO: get rid of this botchjob shitass solution for a problem that shouldn't exist
+    // INFO: this is a viewTemplate issue, fuck that
+    if (!Terminal.terminalActivated) {
+      this.assignEvents({
+        misc: (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            this.run();
+          }
+        },
+      });
+      Terminal.terminalActivated = true;
+    }
 
     this.clearInput();
 
