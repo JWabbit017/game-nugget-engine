@@ -151,6 +151,7 @@ options: ${JSON.stringify(options) ?? "none"};`;
   }
 
   static async php(dir, target, param, options, force) {
+    // SYNTAX: php {code}
     if (force) {
       const response = await fetch("./src/gns/php_raw.php", {
         method: "POST",
@@ -164,6 +165,7 @@ options: ${JSON.stringify(options) ?? "none"};`;
   }
 
   static async sculpt(dir, target, param, options, force) {
+    // SYNTAX: sculpt {target dir path from document root}--name={view name}
     if (force) {
       const response = await fetch("./src/gns/sculpt_view.php", {
         method: "POST",
@@ -180,8 +182,9 @@ options: ${JSON.stringify(options) ?? "none"};`;
   }
 
   static async dpack(dir, target, param, options, force) {
+    // SYNTAX: dpack {version}--path={project path from document root}
     Terminal.output.innerHTML +=
-      '<br><h2 class="warn">-- [ DPack v0.1.2 by JM ] --</h2><br>';
+      '<br><h2 class="warn">-- [ DPack v0.1.3 by JM ] --</h2><br>';
     if (force) {
       const response = await fetch("./src/gns/dpack.php", {
         method: "POST",
@@ -203,6 +206,7 @@ options: ${JSON.stringify(options) ?? "none"};`;
   }
 
   static mode(dir, target, param, options) {
+    // SYNTAX: mode set--{mode}={desired value}
     switch (param) {
       case "set":
         Terminal[Object.keys(options)[0]] = Object.values(options)[0];
@@ -221,9 +225,11 @@ Using view handler: 'GNE.View' (default);
 `;
   }
 
-  static help() {
-    return `
+  static help(dir, target, param) {
+    if (!param || param == "") {
+      return `
 Please refer to the online GNE docs ('https://rjanszen.reawebdev.nl/GNE') for more detailed documentation.
+For more information on individual commands, input |~/instance help {command name}
 
 Common commands:
 - d {input}: sets working class to {input}
@@ -245,5 +251,10 @@ Common commands:
 Keywords:
 - instance: setting this as your working class enables you to act on the runtime Game Nugget
     `;
+    }
+
+    if (GNS[param]) {
+      return GNS[param];
+    }
   }
 }

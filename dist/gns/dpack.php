@@ -5,7 +5,8 @@ class DPack
   private static function exitBadInput(string $msg = 'Invalid input')
   {
     http_response_code(400);
-    echo $msg;
+    echo "<span class='error'>errors!</span><br><br>";
+    echo "<span class='error'>DPACK: $msg</span>";
     exit(1);
   }
 
@@ -49,6 +50,16 @@ class DPack
 
     if (!isset($data['v']) || !isset($data['path'])) static::exitBadInput();
     if ($data['v'] === '' || $data['path'] === '') static::exitBadInput();
+
+    if (!is_dir($_SERVER['DOCUMENT_ROOT'] . '/' . $data['path']))
+    {
+      static::exitBadInput('Path must be a readable directory in document root');
+    }
+
+    if (!preg_match('/^\d\.\d\.\d$/', $data['v']))
+    {
+      static::exitBadInput('Version must follow semantic versioning guidelines');
+    }
 
     return $data;
   }

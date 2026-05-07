@@ -1,4 +1,3 @@
-import GameNugget from "../init.js";
 import thisApp from "../init.js";
 import g from "./generic.js";
 
@@ -73,6 +72,10 @@ export default class View {
       this.events.down = events?.down ?? this?.downEvent;
       this.events.misc = events?.misc ?? this?.miscEvent;
     }
+
+    for (const event in events) {
+      this.events[event] = events[event];
+    }
   }
 
   async #awaitPreWrite(event) {
@@ -99,14 +102,38 @@ export default class View {
 
   appendEvents() {
     if (this.events.a)
-      View.appControls.a.addEventListener("click", this.events.a);
+      View.appControls.a.addEventListener("click", () => {
+        try {
+          this.events.a;
+        } catch (err) {
+          thisApp.error(`${thisApp.display.activeViewName}.aEvent`, err);
+        }
+      });
     if (this.events.b)
-      View.appControls.b.addEventListener("click", this.events.b);
+      View.appControls.b.addEventListener("click", () => {
+        try {
+          this.events.b;
+        } catch (err) {
+          thisApp.error(`${thisApp.display.activeViewName}.bEvent`, err);
+        }
+      });
 
     if (this.events.up)
-      View.appControls.up.addEventListener("click", this.events.up);
+      View.appControls.up.addEventListener("click", () => {
+        try {
+          this.events.up;
+        } catch (err) {
+          thisApp.error(`${thisApp.display.activeViewName}.upEvent`, err);
+        }
+      });
     if (this.events.down)
-      View.appControls.down.addEventListener("click", this.events.down);
+      View.appControls.down.addEventListener("click", () => {
+        try {
+          this.events.down;
+        } catch (err) {
+          thisApp.error(`${thisApp.display.activeViewName}.downEvent`, err);
+        }
+      });
 
     if (this.events.misc)
       document.addEventListener("keydown", (event) => {
@@ -136,12 +163,10 @@ export default class View {
 
     if (nodeRemove) this.element.remove();
     else
-      document
-        .querySelector(`#${GameNugget.display?.activeViewName}`)
-        ?.remove();
+      document.querySelector(`#${thisApp.display?.activeViewName}`)?.remove();
 
-    GameNugget.logger.log(
-      `View '${GameNugget.display?.activeViewName ?? ""}' deconstructed`,
+    thisApp.logger.log(
+      `View '${thisApp.display?.activeViewName ?? ""}' deconstructed`,
     );
   }
 }

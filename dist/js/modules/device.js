@@ -78,7 +78,7 @@ export default class Device {
     document.querySelector("#toggle-gns")?.addEventListener("click", () => {
       if (this.display.currentView.id !== "terminal") {
         this.display.postView("terminal");
-      } else {
+      } else if (this.display.currentImport?.previous !== "terminal") {
         this.display.postView(this.display.currentImport?.previous);
       }
     });
