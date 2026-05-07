@@ -181,7 +181,7 @@ options: ${JSON.stringify(options) ?? "none"};`;
 
   static async dpack(dir, target, param, options, force) {
     Terminal.output.innerHTML +=
-      '<br><h2 class="warn">-- [ DPack v0.1.2 by JM ] --</h2><br>';
+      '<br><h2 class="warn">-- [ DPack v0.1.3 by JM ] --</h2><br>';
     if (force) {
       const response = await fetch("./src/gns/dpack.php", {
         method: "POST",
