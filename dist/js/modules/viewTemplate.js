@@ -102,38 +102,14 @@ export default class View {
 
   appendEvents() {
     if (this.events.a)
-      View.appControls.a.addEventListener("click", () => {
-        try {
-          this.events.a;
-        } catch (err) {
-          thisApp.error(`${thisApp.display.activeViewName}.aEvent`, err);
-        }
-      });
+      View.appControls.a.addEventListener("click", this.events.a);
     if (this.events.b)
-      View.appControls.b.addEventListener("click", () => {
-        try {
-          this.events.b;
-        } catch (err) {
-          thisApp.error(`${thisApp.display.activeViewName}.bEvent`, err);
-        }
-      });
+      View.appControls.b.addEventListener("click", this.events.b);
 
     if (this.events.up)
-      View.appControls.up.addEventListener("click", () => {
-        try {
-          this.events.up;
-        } catch (err) {
-          thisApp.error(`${thisApp.display.activeViewName}.upEvent`, err);
-        }
-      });
+      View.appControls.up.addEventListener("click", this.events.up);
     if (this.events.down)
-      View.appControls.down.addEventListener("click", () => {
-        try {
-          this.events.down;
-        } catch (err) {
-          thisApp.error(`${thisApp.display.activeViewName}.downEvent`, err);
-        }
-      });
+      View.appControls.down.addEventListener("click", this.events.down);
 
     if (this.events.misc)
       document.addEventListener("keydown", (event) => {

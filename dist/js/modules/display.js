@@ -111,7 +111,6 @@ export default class Display {
    */
   async postView(viewName, param = null) {
     try {
-      this.activeViewName = viewName;
       this.viewParam = param;
 
       this?.currentImport?.deconstruct();
@@ -133,6 +132,8 @@ export default class Display {
         throw "View build failed - check if your View's HTML method returns an element";
 
       thisApp.logger.log(`Successfully built view '${viewName}'`);
+
+      this.activeViewName = viewName;
 
       if (this.currentImport?.options?.requiresParameter) {
         if (!param)
