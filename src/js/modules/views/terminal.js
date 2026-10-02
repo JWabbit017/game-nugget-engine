@@ -23,20 +23,6 @@ export class Terminal extends View {
       up: this.previousCommand,
     });
 
-    // TODO: get rid of this botchjob shitass solution for a problem that shouldn't exist
-    // INFO: this is a viewTemplate issue, fuck that
-    if (!Terminal.terminalActivated) {
-      this.assignEvents({
-        misc: (event) => {
-          if (event.key === "Enter") {
-            event.preventDefault();
-            this.run();
-          }
-        },
-      });
-      Terminal.terminalActivated = true;
-    }
-
     this.clearInput();
 
     GNS.findWorkingClass(this.wd);

@@ -27,7 +27,7 @@ class ErrorView extends View {
     const error = g.newElement("div");
     error.setAttribute("id", "error");
 
-    const errText = g.newElement("h2", `${err[0] ?? "ERROR"}: ${err[1] ?? ""}`);
+    const errText = g.newElement("h2", `${err[0] ?? "UNKNOWN"} ${err[1] ?? ""}`);
 
     const help = g.newElement("p", "Press B to reset the device.");
 

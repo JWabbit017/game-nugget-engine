@@ -1,5 +1,4 @@
 import thisApp from "../../init.js";
-import * as DHTML from "../dhtml.js";
 import g from "../generic.js";
 import View from "../viewTemplate.js";
 

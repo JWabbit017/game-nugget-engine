@@ -1,6 +1,5 @@
 import thisApp from "../init.js";
 import g from "./generic.js";
-import Logger from "./logging.js";
 
 export default class DebugHandler {
   loc;
